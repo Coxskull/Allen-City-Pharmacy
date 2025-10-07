@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | Allen City Pharmacy</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- CreateJS -->
+  <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+
+  <style>
+    canvas {
+      width: 100%;
+      height: 240px;
+      background: linear-gradient(135deg, #2e7d32, #66bb6a);
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Hero Banner -->
+  <canvas id="pharmacyBanner"></canvas>
+
+  <!-- Header -->
+  <header class="bg-white shadow-md py-4 px-8 flex flex-col items-center">
+    <img src="logo1.png" alt="Allen City Pharmacy Logo" class="h-16 mb-4">
+    <nav class="space-x-8 text-lg font-medium">
+      <a href="index.html" class="text-gray-700 hover:text-green-700">Home</a>
+      <a href="about.html" class="text-gray-700 hover:text-green-700">About</a>
+      <a href="shop.html" class="text-gray-700 hover:text-green-700">Shop</a>
+      <a href="#" class="text-green-800 border-b-2 border-green-800 pb-1">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Contact Section -->
+  <section class="max-w-6xl mx-auto py-16 px-6">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-green-800 mb-4">Contact Us</h1>
+      <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+        Have questions about your prescription, our services, or an online order?  
+        Our team is here to help — 24/7 support for your convenience.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12">
+      <!-- Contact Form -->
+      <div class="bg-white p-8 rounded-2xl shadow-md">
+        <h2 class="text-2xl font-semibold text-green-700 mb-6">Send us a message</h2>
+        <form action="#" method="POST" class="space-y-5">
+          <div>
+            <label class="block text-gray-700 mb-2">Full Name</label>
+            <input type="text" placeholder="Your Name" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none" required>
+          </div>
+
+          <div>
+            <label class="block text-gray-700 mb-2">Email Address</label>
+            <input type="email" placeholder="you@example.com" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none" required>
+          </div>
+
+          <div>
+            <label class="block text-gray-700 mb-2">Subject</label>
+            <input type="text" placeholder="Subject" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none">
+          </div>
+
+          <div>
+            <label class="block text-gray-700 mb-2">Message</label>
+            <textarea rows="5" placeholder="Your message..." class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 outline-none"></textarea>
+          </div>
+
+          <button type="submit" class="bg-green-700 text-white px-6 py-3 rounded-lg shadow hover:bg-green-800 transition">
+            Send Message
+          </button>
+        </form>
+      </div>
+
+      <!-- Contact Details -->
+      <div class="flex flex-col justify-center">
+        <h2 class="text-2xl font-semibold text-green-700 mb-6">Get in Touch</h2>
+        <p class="text-gray-700 mb-6">
+          Whether you’re managing prescriptions, exploring products, or seeking health advice,
+          we’re just a message away.
+        </p>
+
+        <div class="space-y-4">
+          <div class="flex items-center space-x-4">
+            <img src="Phone.png" alt="Phone" class="h-8 w-8">
+            <div>
+              <p class="text-gray-600 text-sm">Call Us</p>
+              <p class="font-semibold text-green-800">+1 (972) 555-7890</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <img src="Email.png" alt="Email" class="h-8 w-8">
+            <div>
+              <p class="text-gray-600 text-sm">Email</p>
+              <p class="font-semibold text-green-800">support@allencitypharmacy.com</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <img src="Address.png" alt="Location" class="h-8 w-8">
+            <div>
+              <p class="text-gray-600 text-sm">Address</p>
+              <p class="font-semibold text-green-800">123 Healthway Street, Allen, Texas, USA</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <img src="Clock.png" alt="Hours" class="h-8 w-8">
+            <div>
+              <p class="text-gray-600 text-sm">Working Hours</p>
+              <p class="font-semibold text-green-800">Mon–Sun: 8:00 AM – 9:00 PM</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="mt-8">
+          <p class="text-gray-600 mb-3">Follow us</p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-green-700 hover:text-green-900"><img src="facebook.png" class="h-8 w-8"></a>
+            <a href="#" class="text-green-700 hover:text-green-900"><img src="Instagram.png" class="h-8 w-8"></a>
+            <a href="#" class="text-green-700 hover:text-green-900"><img src="Twitter.png" class="h-8 w-8"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Google Map -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto text-center mb-10">
+      <h2 class="text-3xl font-bold text-green-800 mb-3">Visit Our Pharmacy</h2>
+      <p class="text-gray-600 text-lg">We’re conveniently located in the heart of Allen, Texas.</p>
+    </div>
+    <div class="max-w-6xl mx-auto rounded-2xl overflow-hidden shadow-lg">
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3342.7022994827347!2d-96.67250052467837!3d33.1031740735439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x864c166b2f0dffb1%3A0xbee5d6c6c72b4a1!2sAllen%2C%20TX%2075013%2C%20USA!5e0!3m2!1sen!2sus!4v1728261000000!5m2!1sen!2sus"
+        width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-8 text-center">
+    <p>&copy; 2025 Allen City Pharmacy. All Rights Reserved.</p>
+    <p class="mt-2"><a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Use</a></p>
+  </footer>
+
+  <!-- CreateJS Banner Animation -->
+  <script>
+    const stage = new createjs.Stage("pharmacyBanner");
+    const canvas = document.getElementById("pharmacyBanner");
+    canvas.width = window.innerWidth;
+    canvas.height = 240;
+
+    const pills = [];
+    const colors = ["#ffffff", "#ffcc80", "#c8e6c9", "#b2dfdb"];
+
+    for (let i = 0; i < 30; i++) {
+      const pill = new createjs.Shape();
+      pill.graphics.beginFill(colors[Math.floor(Math.random() * colors.length)])
+        .drawRoundRect(0, 0, 40, 15, 8);
+      pill.x = Math.random() * canvas.width;
+      pill.y = Math.random() * canvas.height;
+      pill.speed = 0.5 + Math.random() * 1.5;
+      pills.push(pill);
+      stage.addChild(pill);
+    }
+
+    const bannerText = new createjs.Text("Contact Allen City Pharmacy", "bold 32px Segoe UI", "#ffffff");
+    bannerText.textAlign = "center";
+    bannerText.x = canvas.width / 2;
+    bannerText.y = 100;
+    stage.addChild(bannerText);
+
+    createjs.Ticker.framerate = 60;
+    createjs.Ticker.addEventListener("tick", () => {
+      pills.forEach(p => {
+        p.y -= p.speed;
+        if (p.y < -20) {
+          p.y = canvas.height + 10;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+      bannerText.alpha = 0.8 + Math.sin(createjs.Ticker.getTime() / 300) * 0.2;
+      stage.update();
+    });
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      stage.update();
+    });
+  </script>
+</body>
+</html>
