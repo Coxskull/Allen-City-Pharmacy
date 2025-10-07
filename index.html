@@ -1,13 +1,300 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>allen-city-pharmacy-frontend</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allen City Pharmacy | Your Trusted Local Pharmacy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for social media icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* Hero Background */
+    .hero-bg {
+      background-image: url('image.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      overflow: hidden;
+      animation: zoomEffect 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes zoomEffect {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+
+    /* Chatbot styling */
+    #chatbotBtn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #0d9488;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      font-size: 28px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      cursor: pointer;
+      z-index: 100;
+      transition: transform 0.2s;
+    }
+    #chatbotBtn:hover { transform: scale(1.1); background-color: #0f766e; }
+
+    #chatbotWindow {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      width: 320px;
+      height: 420px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 100;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #chatHeader {
+      background-color: #0d9488;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    #chatBody {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      background-color: #f9fafb;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      max-width: 75%;
+      padding: 8px 12px;
+      border-radius: 12px;
+    }
+
+    .bot { background-color: #e0f2f1; align-self: flex-start; }
+    .user { background-color: #0d9488; color: white; align-self: flex-end; }
+
+    #chatInputArea {
+      display: flex;
+      padding: 8px;
+      border-top: 1px solid #ddd;
+    }
+
+    #chatInput {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    #sendBtn {
+      margin-left: 8px;
+      background-color: #0d9488;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    #sendBtn:hover { background-color: #0f766e; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+      <h1 class="text-2xl font-bold text-teal-600">Allen City Pharmacy</h1>
+      <nav class="space-x-6">
+        <a href="#home" class="hover:text-teal-600">Home</a>
+        <a href="#shop" class="hover:text-teal-600">Shop</a>
+        <a href="#order" class="hover:text-teal-600">Order</a>
+        <a href="#contact" class="hover:text-teal-600">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="relative text-white hero-bg h-[80vh] flex flex-col items-center justify-center">
+    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    <div class="relative text-center px-6">
+      <h2 class="text-5xl font-bold mb-4 drop-shadow-lg">Your Health, Our Priority</h2>
+      <p class="text-lg mb-8 drop-shadow-md">Fast, trusted, and caring — your neighborhood pharmacy at your fingertips.</p>
+
+      <!-- Search bar -->
+      <div class="max-w-xl mx-auto mb-8">
+        <input id="searchInput" type="text" placeholder="Search medicines..." class="w-full p-4 rounded-lg text-gray-800 shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
+      </div>
+
+      <div class="flex justify-center space-x-4">
+        <a href="#order" class="bg-teal-500 hover:bg-teal-600 px-6 py-3 rounded-lg font-semibold text-white transition">Order Prescription</a>
+        <button id="howBtn" class="bg-white text-teal-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition">How Does This Work?</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Medicine Shop Section -->
+  <section id="shop" class="py-20 bg-gray-100">
+    <div class="max-w-6xl mx-auto text-center">
+      <h3 class="text-3xl font-bold text-teal-600 mb-6">Shop Medicines</h3>
+      <div id="medicineList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+    </div>
+  </section>
+
+  <!-- Order Prescription -->
+  <section id="order" class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto text-center">
+      <h3 class="text-3xl font-bold text-teal-600 mb-6">Order Your Prescription</h3>
+      <p class="mb-8 text-gray-700">Upload your prescription and we’ll handle the rest — safe, secure, and hassle-free.</p>
+      <form class="bg-white p-8 rounded-xl shadow-md" enctype="multipart/form-data">
+        <input type="file" name="prescription" accept=".jpg,.jpeg,.png,.pdf" class="block w-full text-gray-700 border border-gray-300 rounded-md p-3 mb-4 cursor-pointer">
+        <input type="text" placeholder="Delivery Address" class="block w-full border border-gray-300 rounded-md p-3 mb-4 text-gray-700">
+        <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-md font-semibold transition">Submit Order</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-20 bg-teal-600 text-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h3 class="text-3xl font-bold mb-6">Get In Touch</h3>
+      <p class="mb-3">📍 123 Wellness Avenue, Allen City</p>
+      <p class="mb-3">📞 (123) 456-7890</p>
+      <p>✉️ info@allencitypharmacy.com</p>
+    </div>
+  </section>
+
+  <!-- Footer with Social Media -->
+  <footer class="bg-gray-900 text-white py-6 text-center">
+    <div class="flex justify-center space-x-6 mb-3">
+      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-x-twitter"></i></a>
+      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+    <p>&copy; 2025 Allen City Pharmacy. All rights reserved.</p>
+  </footer>
+
+  <!-- How Does This Work Modal -->
+  <div id="howModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+    <div class="bg-white rounded-2xl p-8 max-w-md text-center relative shadow-2xl">
+      <button id="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-teal-600 text-2xl font-bold">&times;</button>
+      <h3 class="text-2xl font-bold text-teal-600 mb-4">How Does This Work?</h3>
+      <ol class="text-left space-y-3 text-gray-700">
+        <li><span class="font-semibold text-teal-600">1.</span> Upload a photo of your prescription</li>
+        <li><span class="font-semibold text-teal-600">2.</span> Add your delivery address and place the order</li>
+        <li><span class="font-semibold text-teal-600">3.</span> We will call you to confirm your medicines</li>
+        <li><span class="font-semibold text-teal-600">4.</span> Sit back! Your medicines will be delivered to your doorstep</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Floating Chatbot Button -->
+  <button id="chatbotBtn">💬</button>
+
+  <!-- Chatbot Window -->
+  <div id="chatbotWindow">
+    <div id="chatHeader">💊 Allen City Chat</div>
+    <div id="chatBody" class="flex flex-col">
+      <div class="message bot">Hello! 👋 How can I help you today?</div>
+    </div>
+    <div id="chatInputArea">
+      <input type="text" id="chatInput" placeholder="Type your message..." />
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <script>
+    // Search & Medicine List
+    const medicines = [
+      { name: "Paracetamol", price: "$5" },
+      { name: "Amoxicillin", price: "$12" },
+      { name: "Ibuprofen", price: "$7" },
+      { name: "Cetirizine", price: "$4" },
+      { name: "Vitamin C", price: "$8" },
+      { name: "Loperamide", price: "$6" },
+      { name: "Omeprazole", price: "$9" },
+      { name: "Salbutamol Inhaler", price: "$15" },
+    ];
+    const medicineList = document.getElementById("medicineList");
+    const searchInput = document.getElementById("searchInput");
+
+    function displayMedicines(filter = "") {
+      medicineList.innerHTML = "";
+      medicines
+        .filter(m => m.name.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(m => {
+          const card = document.createElement("div");
+          card.className = "bg-white rounded-lg p-4 shadow hover:shadow-lg transition";
+          card.innerHTML = `<h4 class="font-semibold text-lg text-gray-800 mb-2">${m.name}</h4><p class="text-teal-600 font-bold">${m.price}</p>`;
+          medicineList.appendChild(card);
+        });
+    }
+    searchInput.addEventListener("input", e => displayMedicines(e.target.value));
+    displayMedicines();
+
+    // Modal logic
+    const modal = document.getElementById('howModal');
+    document.getElementById('howBtn').addEventListener('click', () => modal.classList.remove('hidden'));
+    document.getElementById('closeModal').addEventListener('click', () => modal.classList.add('hidden'));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+
+    // Chatbot
+    const chatbotBtn = document.getElementById('chatbotBtn');
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatBody = document.getElementById('chatBody');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    chatbotBtn.addEventListener('click', () => {
+      chatbotWindow.style.display = chatbotWindow.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    sendBtn.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+
+    function sendMessage() {
+      const text = chatInput.value.trim();
+      if (text === '') return;
+      appendMessage('user', text);
+      chatInput.value = '';
+      setTimeout(() => appendMessage('bot', getBotReply(text)), 600);
+    }
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement('div');
+      msg.classList.add('message', sender);
+      msg.textContent = text;
+      chatBody.appendChild(msg);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function getBotReply(text) {
+      const lower = text.toLowerCase();
+      if (lower.includes('hello')) return 'Hi! How can I help you today?';
+      if (lower.includes('medicine')) return 'You can search medicines using the search bar above!';
+      if (lower.includes('order')) return 'You can upload your prescription in the "Order" section.';
+      return 'I’m here to assist with any pharmacy-related questions.';
+    }
+  </script>
+</body>
 </html>
