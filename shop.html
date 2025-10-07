@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Allen City Pharmacy — Shop</title>
+
+  <!--
+    Single-file Shopee-inspired storefront (plain HTML + CSS)
+    Colors derived from your logo:
+      --pharm-green: #006d53
+      --accent-orange: #e56b1f
+    Replace images or texts as needed. No JavaScript required.
+  -->
+
+  <style>
+    :root{
+      --pharm-green: #006d53;
+      --accent-orange: #e56b1f;
+      --muted: #f6f7f8;
+      --card-bg: #ffffff;
+      --text: #223;
+      --radius: 10px;
+      --max-width: 1200px;
+      --shadow: 0 6px 18px rgba(16,24,32,0.06);
+      --soft-shadow: 0 4px 12px rgba(16,24,32,0.04);
+    }
+
+    /* Reset & base */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:var(--text);
+      background:linear-gradient(180deg,#fbfdfc 0%, #ffffff 100%);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* Page container */
+    .site {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 16px 64px;
+    }
+
+    /* Header */
+    header.topbar{
+      position: sticky;
+      top:0;
+      background: white;
+      z-index: 50;
+      border-bottom: 1px solid #e9eef0;
+    }
+    .topbar .site {
+      display:flex;
+      align-items:center;
+      gap:16px;
+      padding:12px 0;
+    }
+    .logo {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .logo img{
+      height:56px;
+      width:auto;
+      display:block;
+    }
+
+    /* Search / actions */
+    .search {
+      flex:1;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      margin-left:4px;
+    }
+    .search input{
+      flex:1;
+      height:44px;
+      padding:10px 14px;
+      border-radius:8px;
+      border:1px solid #e4ece9;
+      background: #fff;
+      font-size:15px;
+      outline:none;
+    }
+    .search button{
+      background:var(--accent-orange);
+      border:none;
+      color:white;
+      font-weight:600;
+      padding:10px 14px;
+      border-radius:8px;
+      cursor:pointer;
+      box-shadow:var(--soft-shadow);
+    }
+
+    .actions {
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .action-btn {
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid transparent;
+      cursor:pointer;
+      font-weight:600;
+      color:var(--pharm-green);
+      background:transparent;
+    }
+    .cart-badge {
+      background:var(--accent-orange);
+      color:white;
+      min-width:22px;
+      height:22px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:11px;
+      font-size:12px;
+      padding:0 6px;
+      margin-left:6px;
+    }
+
+    /* Hero (pharmacist photo with overlay) */
+    .hero {
+      position:relative;
+      margin:20px 0;
+      border-radius: var(--radius);
+      overflow:hidden;
+      min-height: 380px;
+      display:flex;
+      align-items:center;
+      justify-content:flex-start;
+      background: url('https://images.pexels.com/photos/48604/pexels-photo-48604.jpeg?auto=compress&cs=tinysrgb&w=1600') center/cover no-repeat;
+      box-shadow: var(--shadow);
+    }
+    /* soft moving gradient overlay (calm natural animation) */
+    .hero::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background: linear-gradient(120deg, rgba(224,247,244,0.28), rgba(255,255,255,0.12) 40%, rgba(210,242,230,0.18));
+      z-index:1;
+      animation: calmSky 30s ease infinite;
+      background-size:400% 400%;
+    }
+    @keyframes calmSky {
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
+    .hero-inner{
+      position:relative;
+      z-index:2;
+      padding:40px;
+      max-width: 720px;
+    }
+    .hero h1{
+      color:white;
+      font-size:34px;
+      margin:0 0 8px;
+      text-shadow: 0 6px 20px rgba(0,0,0,0.35);
+    }
+    .hero p{
+      color: #f6fff8;
+      margin:0 0 16px;
+      font-size:16px;
+      opacity:0.95;
+    }
+    .hero .cta{
+      display:inline-block;
+      background:var(--accent-orange);
+      color:white;
+      padding:12px 18px;
+      border-radius:10px;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow: 0 8px 26px rgba(229,107,31,0.18);
+    }
+
+    /* Category strip (Shopee-like) */
+    .categories {
+      display:flex;
+      gap:12px;
+      margin:20px 0;
+      overflow:auto;
+      padding-bottom:8px;
+    }
+    .cat {
+      min-width:88px;
+      background:linear-gradient(180deg,#ffffff,#fbfffc);
+      border-radius:12px;
+      padding:14px 10px;
+      text-align:center;
+      box-shadow: var(--soft-shadow);
+      border:1px solid #eef6f1;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      flex-shrink:0;
+    }
+    .cat .icon {
+      font-size:22px;
+      width:46px;
+      height:46px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+      background: rgba(0,109,83,0.06);
+      color:var(--pharm-green);
+    }
+    .cat span{font-size:13px; font-weight:600; color:#123;}
+
+    /* Main section */
+    main {
+      margin-top:10px;
+    }
+
+    /* Grid of products */
+    .products {
+      display:grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap:18px;
+      margin-top:14px;
+    }
+    .card {
+      background:var(--card-bg);
+      border-radius:12px;
+      overflow:hidden;
+      border:1px solid #eef6f1;
+      transition: transform .15s ease, box-shadow .15s ease;
+      box-shadow: var(--soft-shadow);
+      display:flex;
+      flex-direction:column;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.08); }
+    .card .media{
+      width:100%;
+      aspect-ratio: 4/3;
+      background: #f4f6f4;
+    }
+    .card .media img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .card .body {
+      padding:12px 14px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      flex:1;
+    }
+    .card h3{
+      font-size:15px;
+      margin:0;
+      color:var(--pharm-green);
+      line-height:1.2;
+      font-weight:700;
+    }
+    .meta{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+    .price {
+      color: var(--accent-orange);
+      font-weight:800;
+      font-size:16px;
+    }
+    .old-price{
+      color:#98a0a0;
+      font-size:13px;
+      text-decoration:line-through;
+    }
+    .rating {
+      font-size:13px;
+      color:#ffb703;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .add {
+      margin-top:8px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+    .qty {
+      background:#f0f6f3;
+      color:var(--pharm-green);
+      border-radius:8px;
+      padding:8px 10px;
+      font-weight:700;
+      border:1px solid #eaf6f0;
+    }
+    .add .btn {
+      margin-left:auto;
+      background:var(--pharm-green);
+      color:white;
+      padding:8px 12px;
+      border-radius:8px;
+      text-decoration:none;
+      font-weight:700;
+    }
+
+    /* Footer */
+    footer.site-footer{
+      margin-top:34px;
+      padding:18px 0;
+      text-align:center;
+      color:#7b8a84;
+      font-size:14px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1000px){
+      .products{ grid-template-columns: repeat(3, 1fr); }
+      .hero-inner{ padding:28px; }
+    }
+    @media (max-width: 760px){
+      .site{ padding: 0 14px 64px;}
+      .topbar .site{ flex-wrap:wrap; gap:10px;}
+      .search{ order:3; width:100%;}
+      .actions{ order:2; margin-left:auto;}
+      .products{ grid-template-columns: repeat(2, 1fr); gap:12px;}
+      .hero{ min-height:280px; border-radius:12px;}
+      .hero h1{ font-size:22px;}
+      .categories{ gap:10px; }
+      .cat{ min-width:76px; padding:10px 8px;}
+    }
+    @media (max-width:420px){
+      .products{ grid-template-columns: 1fr; }
+      .logo img{ height:48px; }
+    }
+
+    /* Small accessibility helpers */
+    a { color:inherit }
+    a:focus { outline:3px solid rgba(0,109,83,0.12); border-radius:8px }
+  </style>
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="site">
+      <div class="logo" aria-hidden="false">
+        <img src="Allen City Pharmacy Logo.png" alt="Allen City Pharmacy logo (green and orange shield)" />
+      </div>
+
+      <!-- Search bar -->
+      <div class="search" role="search" aria-label="Site search">
+        <input type="search" placeholder="Search for medicines, vitamins, baby care..." aria-label="Search" />
+        <button aria-label="Search">Search</button>
+      </div>
+
+      <!-- Actions -->
+      <div class="actions" aria-hidden="false">
+        <button class="action-btn" title="Orders">📦 Orders</button>
+        <button class="action-btn" title="Account">👤 Account</button>
+        <button class="action-btn" title="Cart">🛒 Cart <span class="cart-badge">2</span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="site" role="main">
+    <!-- Hero -->
+    <section class="hero" aria-label="Hero: Allen City Pharmacy">
+      <div class="hero-inner">
+        <h1>Your Health, Our Priority</h1>
+        <p>Fast local delivery • Trusted pharmacists • Quality healthcare essentials</p>
+        <a class="cta" href="shop.html" aria-label="Shop now">Shop Now</a>
+      </div>
+    </section>
+
+    <!-- Category strip (clickable emoji icons) -->
+<section class="categories" aria-label="Product categories">
+  <a class="cat" href="shop.html#vitamins">
+    <div class="icon">💊</div>
+    <span>Vitamins</span>
+  </a>
+  <a class="cat" href="shop.html#pain-relief">
+    <div class="icon">🤕</div>
+    <span>Pain Relief</span>
+  </a>
+  <a class="cat" href="shop.html#skincare">
+    <div class="icon">🧴</div>
+    <span>Skincare</span>
+  </a>
+  <a class="cat" href="shop.html#first-aid">
+    <div class="icon">🧷</div>
+    <span>First Aid</span>
+  </a>
+  <a class="cat" href="shop.html#baby-care">
+    <div class="icon">👶</div>
+    <span>Baby Care</span>
+  </a>
+  <a class="cat" href="shop.html#medical-supplies">
+    <div class="icon">🩹</div>
+    <span>Medical Supplies</span>
+  </a>
+  <a class="cat" href="shop.html#hygiene">
+    <div class="icon">🧼</div>
+    <span>Hygiene</span>
+  </a>
+  <a class="cat" href="shop.html#health-devices">
+    <div class="icon">🩺</div>
+    <span>Health Devices</span>
+  </a>
+</section>
+
+
+    <!-- Products grid -->
+    <main>
+      <div style="display:flex;align-items:center;justify-content:space-between; gap:12px;">
+        <h2 style="margin:0; color:var(--pharm-green);">Featured for you</h2>
+        <p style="margin:0; color:#6f8a82; font-weight:600;">Best sellers • Fast delivery</p>
+      </div>
+
+      <section class="products" aria-label="Products">
+        <!-- Product 1 -->
+        <article class="card" aria-labelledby="p1">
+          <div class="media"><img src="https://images.pexels.com/photos/375914/pexels-photo-375914.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Pain relief tablets"></div>
+          <div class="body">
+            <h3 id="p1">Pain Relief Tablets - 20 pack</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.8 <span style="color:#9aa6a1;font-weight:600;">(1.2k)</span></div>
+              <div>
+                <div class="price">$8.99</div>
+                <div class="old-price">$11.99</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">In stock</div>
+              <a href="shop.html" class="btn" role="button" aria-label="Add Pain Relief Tablets to cart">Add</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 2 -->
+        <article class="card" aria-labelledby="p2">
+          <div class="media"><img src="https://images.pexels.com/photos/5938359/pexels-photo-5938359.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Vitamin D bottles"></div>
+          <div class="body">
+            <h3 id="p2">Vitamin D3 - 60 softgels</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.7 <span style="color:#9aa6a1;font-weight:600;">(860)</span></div>
+              <div>
+                <div class="price">$10.50</div>
+                <div class="old-price">$13.00</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">Low stock</div>
+              <a href="shop.html" class="btn">Add</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 3 -->
+        <article class="card" aria-labelledby="p3">
+          <div class="media"><img src="https://images.pexels.com/photos/40568/medical-appointment-doctor-healthcare-40568.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Cough syrup bottle"></div>
+          <div class="body">
+            <h3 id="p3">Cough Syrup - 150ml</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.6 <span style="color:#9aa6a1;font-weight:600;">(430)</span></div>
+              <div>
+                <div class="price">$6.75</div>
+                <div class="old-price">$8.00</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">In stock</div>
+              <a href="shop.html" class="btn">Add</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 4 -->
+        <article class="card" aria-labelledby="p4">
+          <div class="media"><img src="https://images.pexels.com/photos/403160/pexels-photo-403160.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Hand sanitizer"></div>
+          <div class="body">
+            <h3 id="p4">Hand Sanitizer 500 ml</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.9 <span style="color:#9aa6a1;font-weight:600;">(2.1k)</span></div>
+              <div>
+                <div class="price">$5.99</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">In stock</div>
+              <a href="shop.html" class="btn">Add</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 5 -->
+        <article class="card" aria-labelledby="p5">
+          <div class="media"><img src="https://images.pexels.com/photos/416754/pexels-photo-416754.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="First aid kit"></div>
+          <div class="body">
+            <h3 id="p5">First Aid Kit - Compact</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.5 <span style="color:#9aa6a1;font-weight:600;">(320)</span></div>
+              <div>
+                <div class="price">$24.99</div>
+                <div class="old-price">$29.99</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">In stock</div>
+              <a href="shop.html" class="btn">Add</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 6 -->
+        <article class="card" aria-labelledby="p6">
+          <div class="media"><img src="https://images.pexels.com/photos/3662658/pexels-photo-3662658.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Allergy relief spray"></div>
+          <div class="body">
+            <h3 id="p6">Allergy Relief Spray</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.4 <span style="color:#9aa6a1;font-weight:600;">(198)</span></div>
+              <div>
+                <div class="price">$14.75</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">In stock</div>
+              <a href="shop.html" class="btn">Add</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 7 -->
+        <article class="card" aria-labelledby="p7">
+          <div class="media"><img src="https://images.pexels.com/photos/1766144/pexels-photo-1766144.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Baby formula"></div>
+          <div class="body">
+            <h3 id="p7">Baby Formula - 400g</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.6 <span style="color:#9aa6a1;font-weight:600;">(540)</span></div>
+              <div>
+                <div class="price">$18.20</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">Low stock</div>
+              <a href="shop.html" class="btn">Add</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Product 8 -->
+        <article class="card" aria-labelledby="p8">
+          <div class="media"><img src="https://images.pexels.com/photos/3683026/pexels-photo-3683026.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Digital thermometer"></div>
+          <div class="body">
+            <h3 id="p8">Digital Thermometer</h3>
+            <div class="meta">
+              <div class="rating">⭐ 4.7 <span style="color:#9aa6a1;font-weight:600;">(760)</span></div>
+              <div>
+                <div class="price">$9.99</div>
+              </div>
+            </div>
+            <div class="add">
+              <div class="qty">In stock</div>
+              <a href="shop.html" class="btn">Add</a>
+            </div>
+          </div>
+        </article>
+
+      </section>
+    </main>
+
+    <footer class="site-footer" role="contentinfo">
+      <div>© 2025 Allen City Pharmacy • Local delivery • Pharmacist advice</div>
+      <div style="margin-top:6px;color:#9aa6a1;font-size:13px;">Placeholders use free stock images. Replace with your product photos for production.</div>
+    </footer>
+  </div>
+  <style>
+    /* Animated background gradient (based on logo colors) */
+body {
+  background: linear-gradient(-45deg, #006d53, #e56b1f, #f8f8f8, #006d53);
+  background-size: 400% 400%;
+  animation: smoothFlow 25s ease infinite;
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+@keyframes smoothFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+  </style>
+</body>
+</html>
