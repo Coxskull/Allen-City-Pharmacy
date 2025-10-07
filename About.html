@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us | Allen City Pharmacy</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- CreateJS -->
+  <script src="https://code.createjs.com/1.0.0/createjs.min.js"></script>
+
+  <style>
+    canvas {
+      width: 100%;
+      height: 240px;
+      background: linear-gradient(135deg, #2e7d32, #66bb6a);
+      display: block;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md py-4 px-8 flex flex-col items-center">
+    <img src="logo1.png" alt="Allen City Pharmacy Logo" class="h-16 mb-4">
+    <nav class="space-x-8 text-lg font-medium">
+      <a href="index.html" class="text-gray-700 hover:text-green-700">Home</a>
+      <a href="#" class="text-green-800 border-b-2 border-green-800 pb-1">About</a>
+      <a href="shop.html" class="text-gray-700 hover:text-green-700">Shop</a>
+      <a href="contact.html" class="text-gray-700 hover:text-green-700">Contact</a>
+    </nav>
+  </header>
+
+  <!-- About Overview -->
+  <section class="max-w-6xl mx-auto py-16 px-6">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold text-green-800 mb-4">About Allen City Pharmacy</h1>
+      <p class="text-lg text-gray-600">
+        Allen City Pharmacy is committed to improving lives through accessible, reliable, and innovative healthcare solutions.
+        Our platform enables customers to order medicines online, manage prescriptions, and consult with licensed pharmacists—
+        with full compliance to HIPAA and FDA e-prescription standards.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <img src="pharmacystore.jpeg"
+             alt="Pharmacy store"
+             class="rounded-2xl shadow-lg">
+      </div>
+      <div>
+        <h2 class="text-2xl font-semibold text-green-700 mb-3">Our Mission</h2>
+        <p class="text-gray-700 mb-4">
+          We aim to make healthcare more personal and accessible—empowering individuals and communities to live healthier lives.
+          From prescription management to telehealth, our services bridge the gap between traditional and digital pharmacy care.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-green-700 mb-3">Our Values</h2>
+        <ul class="list-disc list-inside text-gray-700 space-y-2">
+          <li>Integrity and transparency in every interaction</li>
+          <li>Accessibility to essential medicines and care</li>
+          <li>Innovation to meet evolving healthcare needs</li>
+          <li>Commitment to community health and wellness</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Services -->
+  <section class="bg-white py-16 px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-green-800 mb-3">Our Services</h2>
+      <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+        From retail excellence to specialized care, we deliver pharmacy and health services that enhance every customer’s wellness journey.
+      </p>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <!-- Retail Excellence -->
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="Retail.png" alt="Retail Excellence" class="mx-auto h-32 mb-4 rounded-lg object-cover">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Retail Excellence</h3>
+        <p class="text-gray-600">
+          Trusted products and personalized service across stores and digital platforms.
+        </p>
+      </div>
+
+      <!-- Pharmacy Services -->
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="Pharmacy.png" alt="Pharmacy Services" class="mx-auto h-32 mb-4 rounded-lg object-cover">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Pharmacy Services</h3>
+        <p class="text-gray-600">
+          Fill prescriptions, receive consultations, and access clinical services every day.
+        </p>
+      </div>
+
+      <!-- Virtual Healthcare -->
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="virtual.png" alt="Virtual Healthcare" class="mx-auto h-32 mb-4 rounded-lg object-cover">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Virtual Healthcare</h3>
+        <p class="text-gray-600">
+          24/7 virtual consultations and digital prescription management via mobile app.
+        </p>
+      </div>
+
+      <!-- Specialty Pharmacy -->
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="specialty.png" alt="Specialty Pharmacy" class="mx-auto h-32 mb-4 rounded-lg object-cover">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Specialty Pharmacy</h3>
+        <p class="text-gray-600">
+          Personalized care for chronic, rare, and complex conditions requiring specialized support.
+        </p>
+      </div>
+
+      <!-- Healthcare Services -->
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="Healtcare.png" alt="Healthcare Services" class="mx-auto h-32 mb-4 rounded-lg object-cover">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Healthcare Services</h3>
+        <p class="text-gray-600">
+          Partnerships with healthcare systems and providers to deliver community-based solutions.
+        </p>
+      </div>
+
+      <!-- Pickup & Delivery -->
+      <div class="bg-gray-50 p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="Pickup.png" alt="Pickup & Delivery" class="mx-auto h-32 mb-4 rounded-lg object-cover">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Pickup & Delivery</h3>
+        <p class="text-gray-600">
+          Convenient 30-minute pickup, 1-hour delivery, and free shipping for all essentials.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Leadership / Chief Doctor -->
+  <section class="bg-gray-100 py-16 px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-green-800 mb-3">Our Leadership</h2>
+      <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+        Meet the people leading Allen City Pharmacy toward a healthier, more connected future in pharmacy and healthcare.
+      </p>
+    </div>
+
+    <div class="max-w-5xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <!-- Chief Doctor -->
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="chiefdoctor.jpg" alt="Chief Doctor" class="mx-auto h-40 w-40 object-cover rounded-full mb-4 border-4 border-green-700">
+        <h3 class="text-xl font-semibold text-green-700 mb-1">Dr. Allen Reyes</h3>
+        <p class="text-gray-500 mb-2">Chief Medical Officer</p>
+        <p class="text-gray-600 text-sm">
+          With over 20 years of pharmaceutical and clinical experience, Dr. Reyes leads our medical operations and ensures the highest standards of patient safety, innovation, and care.
+        </p>
+      </div>
+
+      <!-- Chief Pharmacist -->
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="chiefpharmacist.jpg" alt="Chief Pharmacist" class="mx-auto h-40 w-40 object-cover rounded-full mb-4 border-4 border-green-700">
+        <h3 class="text-xl font-semibold text-green-700 mb-1">Dr. Maria Santos</h3>
+        <p class="text-gray-500 mb-2">Chief Pharmacist</p>
+        <p class="text-gray-600 text-sm">
+          Dr. Santos oversees pharmacy operations, clinical services, and ensures regulatory compliance to FDA and HIPAA standards.
+        </p>
+      </div>
+
+      <!-- Chief Operations Officer -->
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="chiefoperations.jpg" alt="Chief Operations Officer" class="mx-auto h-40 w-40 object-cover rounded-full mb-4 border-4 border-green-700">
+        <h3 class="text-xl font-semibold text-green-700 mb-1">Mr. John Lim</h3>
+        <p class="text-gray-500 mb-2">Chief Operations Officer</p>
+        <p class="text-gray-600 text-sm">
+          Leading strategic growth and innovation, John ensures that every Allen City Pharmacy location delivers top-quality customer care and efficient service.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hot off the Press -->
+  <section class="bg-gray-50 py-16 px-6">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-green-800 mb-3">Hot off the Press</h2>
+      <p class="text-gray-600 text-lg max-w-3xl mx-auto">
+        Stay updated on the latest pharmacy insights, product launches, and healthcare innovations from Allen City Pharmacy.
+      </p>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
+      <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+        <img src="press1.png" alt="Press 1" class="w-full h-40 object-cover">
+        <div class="p-5">
+          <h3 class="font-semibold text-green-700 mb-2">New Wellness Product Line Launched</h3>
+          <p class="text-gray-600 text-sm">Explore our newly released organic supplement collection for daily wellness.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+        <img src="press2.jpg" alt="Press 2" class="w-full h-40 object-cover">
+        <div class="p-5">
+          <h3 class="font-semibold text-green-700 mb-2">Allen City Launches Virtual Consultations</h3>
+          <p class="text-gray-600 text-sm">Now offering 24/7 chat access to licensed pharmacists nationwide.</p>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+        <img src="press3.webp" alt="Press 3" class="w-full h-40 object-cover">
+        <div class="p-5">
+          <h3 class="font-semibold text-green-700 mb-2">Sustainability Commitment 2025</h3>
+          <p class="text-gray-600 text-sm">We’re reducing plastic waste and increasing eco-friendly packaging across all stores.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Continue to Explore -->
+  <section class="bg-green-700 text-white py-16 px-6 text-center">
+    <h2 class="text-3xl font-semibold mb-4">Continue to Explore</h2>
+    <p class="max-w-3xl mx-auto text-lg mb-10">
+      Discover more about Allen City Pharmacy — from career opportunities to our digital health innovations.
+    </p>
+
+    <div class="flex flex-wrap justify-center gap-6">
+      <a href="careers.html" class="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-100 transition">Careers</a>
+      <a href="services.html" class="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-100 transition">Our Services</a>
+      <a href="contact.html" class="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold shadow hover:bg-gray-100 transition">Contact Us</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-8 text-center">
+    <p>&copy; 2025 Allen City Pharmacy. All Rights Reserved.</p>
+    <p class="mt-2"><a href="#" class="hover:text-white">Privacy Policy</a> | <a href="#" class="hover:text-white">Terms of Use</a></p>
+  </footer>
+
+  <!-- Create.js Banner Animation -->
+  <script>
+    const stage = new createjs.Stage("pharmacyBanner");
+    const canvas = document.getElementById("pharmacyBanner");
+    canvas.width = window.innerWidth;
+    canvas.height = 240;
+
+    const pills = [];
+    const colors = ["#ffffff", "#ffcc80", "#c8e6c9", "#b2dfdb"];
+
+    for (let i = 0; i < 30; i++) {
+      const pill = new createjs.Shape();
+      pill.graphics.beginFill(colors[Math.floor(Math.random() * colors.length)])
+        .drawRoundRect(0, 0, 40, 15, 8);
+      pill.x = Math.random() * canvas.width;
+      pill.y = Math.random() * canvas.height;
+      pill.speed = 0.5 + Math.random() * 1.5;
+      pills.push(pill);
+      stage.addChild(pill);
+    }
+
+    const bannerText = new createjs.Text("Allen City Pharmacy", "bold 32px Segoe UI", "#ffffff");
+    bannerText.textAlign = "center";
+    bannerText.x = canvas.width / 2;
+    bannerText.y = 100;
+    stage.addChild(bannerText);
+
+    createjs.Ticker.framerate = 60;
+    createjs.Ticker.addEventListener("tick", () => {
+      pills.forEach(p => {
+        p.y -= p.speed;
+        if (p.y < -20) {
+          p.y = canvas.height + 10;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+      bannerText.alpha = 0.8 + Math.sin(createjs.Ticker.getTime() / 300) * 0.2;
+      stage.update();
+    });
+
+    window.addEventListener("resize", () => {
+      canvas.width = window.innerWidth;
+      stage.update();
+    });
+  </script>
+
+</body>
+</html>
