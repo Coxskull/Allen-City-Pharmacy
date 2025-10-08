@@ -1,300 +1,709 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Allen City Pharmacy | Your Trusted Local Pharmacy</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Allen City Pharmacy | Home</title>
+  <link rel="icon" href="AllenCity Pharmacy Logo.png" />
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <!-- Font Awesome for social media icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- React UMD -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
   <style>
-    /* Hero Background */
-    .hero-bg {
-      background-image: url('image.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      position: relative;
-      overflow: hidden;
-      animation: zoomEffect 20s ease-in-out infinite alternate;
-    }
-
-    @keyframes zoomEffect {
-      from { transform: scale(1); }
-      to { transform: scale(1.1); }
-    }
-
-    /* Chatbot styling */
-    #chatbotBtn {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background-color: #0d9488;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      font-size: 28px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      cursor: pointer;
-      z-index: 100;
-      transition: transform 0.2s;
-    }
-    #chatbotBtn:hover { transform: scale(1.1); background-color: #0f766e; }
-
-    #chatbotWindow {
-      position: fixed;
-      bottom: 100px;
-      right: 30px;
-      width: 320px;
-      height: 420px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-      display: none;
-      flex-direction: column;
-      overflow: hidden;
-      z-index: 100;
-      animation: fadeIn 0.3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    #chatHeader {
-      background-color: #0d9488;
-      color: white;
-      padding: 12px;
-      text-align: center;
-      font-weight: 600;
-    }
-
-    #chatBody {
-      flex: 1;
-      padding: 12px;
-      overflow-y: auto;
-      background-color: #f9fafb;
-    }
-
-    .message {
-      margin-bottom: 10px;
-      max-width: 75%;
-      padding: 8px 12px;
-      border-radius: 12px;
-    }
-
-    .bot { background-color: #e0f2f1; align-self: flex-start; }
-    .user { background-color: #0d9488; color: white; align-self: flex-end; }
-
-    #chatInputArea {
-      display: flex;
-      padding: 8px;
-      border-top: 1px solid #ddd;
-    }
-
-    #chatInput {
-      flex: 1;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      outline: none;
-    }
-
-    #sendBtn {
-      margin-left: 8px;
-      background-color: #0d9488;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-
-    #sendBtn:hover { background-color: #0f766e; }
+    :root { --acp-green: #16a34a; --acp-orange: #f97316; }
+    body { font-family: 'Poppins', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+    .hero-zoom { animation: zoomEffect 18s ease-in-out infinite alternate; }
+    @keyframes zoomEffect { from{ transform: scale(1) } to{ transform: scale(1.06) } }
+    .fade-in { animation: fadeIn .25s ease-in-out; }
+    @keyframes fadeIn { from{ opacity: 0; transform: translateY(8px) } to{ opacity: 1; transform: translateY(0) } }
+    .cart-scroll::-webkit-scrollbar { width: 8px } 
+    .cart-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 999px; }
   </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
 
-  <!-- Navbar -->
-  <header class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
-      <h1 class="text-2xl font-bold text-teal-600">Allen City Pharmacy</h1>
-      <nav class="space-x-6">
-        <a href="#home" class="hover:text-teal-600">Home</a>
-        <a href="#shop" class="hover:text-teal-600">Shop</a>
-        <a href="#order" class="hover:text-teal-600">Order</a>
-        <a href="#contact" class="hover:text-teal-600">Contact</a>
-      </nav>
-    </div>
-  </header>
+<body class="text-gray-800 font-sans bg-[linear-gradient(135deg,#22c55e_0%,#f97316_100%)] bg-fixed">
+  <div id="root"></div>
 
-  <!-- Hero Section -->
-  <section id="home" class="relative text-white hero-bg h-[80vh] flex flex-col items-center justify-center">
-    <div class="absolute inset-0 bg-black bg-opacity-60"></div>
-    <div class="relative text-center px-6">
-      <h2 class="text-5xl font-bold mb-4 drop-shadow-lg">Your Health, Our Priority</h2>
-      <p class="text-lg mb-8 drop-shadow-md">Fast, trusted, and caring — your neighborhood pharmacy at your fingertips.</p>
+  <script type="text/babel">
 
-      <!-- Search bar -->
-      <div class="max-w-xl mx-auto mb-8">
-        <input id="searchInput" type="text" placeholder="Search medicines..." class="w-full p-4 rounded-lg text-gray-800 shadow-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-400">
-      </div>
+  const { useState, useEffect, useMemo, useRef } = React;
 
-      <div class="flex justify-center space-x-4">
-        <a href="#order" class="bg-teal-500 hover:bg-teal-600 px-6 py-3 rounded-lg font-semibold text-white transition">Order Prescription</a>
-        <button id="howBtn" class="bg-white text-teal-600 hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition">How Does This Work?</button>
-      </div>
-    </div>
-  </section>
+  /***** PRODUCTS DATA *****/
+  const PRODUCTS = [
+    { id: 'p1', name: 'Paracetamol 500mg', price: 5.00, delivery: true, pickup: true, desc: 'Pain reliever / fever reducer' },
+    { id: 'p2', name: 'Amoxicillin 250mg', price: 12.00, delivery: true, pickup: false, desc: 'Antibiotic' },
+    { id: 'p3', name: 'Ibuprofen 200mg', price: 7.00, delivery: true, pickup: true, desc: 'Anti-inflammatory' },
+    { id: 'p4', name: 'Cetirizine 10mg', price: 4.00, delivery: false, pickup: true, desc: 'Allergy relief' },
+    { id: 'p5', name: 'Vitamin C 1000mg', price: 8.00, delivery: true, pickup: true, desc: 'Immune support' },
+    { id: 'p6', name: 'Loperamide 2mg', price: 6.00, delivery: true, pickup: false, desc: 'Anti-diarrheal' },
+    { id: 'p7', name: 'Omeprazole 20mg', price: 9.00, delivery: true, pickup: true, desc: 'Acid reflux relief' },
+    { id: 'p8', name: 'Salbutamol Inhaler', price: 15.00, delivery: false, pickup: true, desc: 'Bronchodilator' }
+  ];
 
-  <!-- Medicine Shop Section -->
-  <section id="shop" class="py-20 bg-gray-100">
-    <div class="max-w-6xl mx-auto text-center">
-      <h3 class="text-3xl font-bold text-teal-600 mb-6">Shop Medicines</h3>
-      <div id="medicineList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-    </div>
-  </section>
+  const CART_KEY = 'acp_cart_v1';
 
-  <!-- Order Prescription -->
-  <section id="order" class="py-20 bg-gray-50">
-    <div class="max-w-4xl mx-auto text-center">
-      <h3 class="text-3xl font-bold text-teal-600 mb-6">Order Your Prescription</h3>
-      <p class="mb-8 text-gray-700">Upload your prescription and we’ll handle the rest — safe, secure, and hassle-free.</p>
-      <form class="bg-white p-8 rounded-xl shadow-md" enctype="multipart/form-data">
-        <input type="file" name="prescription" accept=".jpg,.jpeg,.png,.pdf" class="block w-full text-gray-700 border border-gray-300 rounded-md p-3 mb-4 cursor-pointer">
-        <input type="text" placeholder="Delivery Address" class="block w-full border border-gray-300 rounded-md p-3 mb-4 text-gray-700">
-        <button type="submit" class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-3 rounded-md font-semibold transition">Submit Order</button>
-      </form>
-    </div>
-  </section>
+  /***** UTIL HOOK: useLocalStorageState *****/
+  function useLocalStorageState(key, initial) {
+    const [state, setState] = useState(() => {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : initial;
+      } catch (e) { return initial; }
+    });
+    useEffect(() => {
+      try { localStorage.setItem(key, JSON.stringify(state)); } catch (e) {}
+    }, [key, state]);
+    return [state, setState];
+  }
 
-  <!-- Contact -->
-  <section id="contact" class="py-20 bg-teal-600 text-white">
-    <div class="max-w-5xl mx-auto text-center">
-      <h3 class="text-3xl font-bold mb-6">Get In Touch</h3>
-      <p class="mb-3">📍 123 Wellness Avenue, Allen City</p>
-      <p class="mb-3">📞 (123) 456-7890</p>
-      <p>✉️ info@allencitypharmacy.com</p>
-    </div>
-  </section>
-
-  <!-- Footer with Social Media -->
-  <footer class="bg-gray-900 text-white py-6 text-center">
-    <div class="flex justify-center space-x-6 mb-3">
-      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-facebook-f"></i></a>
-      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-x-twitter"></i></a>
-      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-instagram"></i></a>
-      <a href="#" class="text-gray-400 hover:text-white text-2xl"><i class="fab fa-linkedin-in"></i></a>
-    </div>
-    <p>&copy; 2025 Allen City Pharmacy. All rights reserved.</p>
-  </footer>
-
-  <!-- How Does This Work Modal -->
-  <div id="howModal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-    <div class="bg-white rounded-2xl p-8 max-w-md text-center relative shadow-2xl">
-      <button id="closeModal" class="absolute top-3 right-3 text-gray-500 hover:text-teal-600 text-2xl font-bold">&times;</button>
-      <h3 class="text-2xl font-bold text-teal-600 mb-4">How Does This Work?</h3>
-      <ol class="text-left space-y-3 text-gray-700">
-        <li><span class="font-semibold text-teal-600">1.</span> Upload a photo of your prescription</li>
-        <li><span class="font-semibold text-teal-600">2.</span> Add your delivery address and place the order</li>
-        <li><span class="font-semibold text-teal-600">3.</span> We will call you to confirm your medicines</li>
-        <li><span class="font-semibold text-teal-600">4.</span> Sit back! Your medicines will be delivered to your doorstep</li>
-      </ol>
-    </div>
-  </div>
-
-  <!-- Floating Chatbot Button -->
-  <button id="chatbotBtn">💬</button>
-
-  <!-- Chatbot Window -->
-  <div id="chatbotWindow">
-    <div id="chatHeader">💊 Allen City Chat</div>
-    <div id="chatBody" class="flex flex-col">
-      <div class="message bot">Hello! 👋 How can I help you today?</div>
-    </div>
-    <div id="chatInputArea">
-      <input type="text" id="chatInput" placeholder="Type your message..." />
-      <button id="sendBtn">Send</button>
-    </div>
-  </div>
-
-  <script>
-    // Search & Medicine List
-    const medicines = [
-      { name: "Paracetamol", price: "$5" },
-      { name: "Amoxicillin", price: "$12" },
-      { name: "Ibuprofen", price: "$7" },
-      { name: "Cetirizine", price: "$4" },
-      { name: "Vitamin C", price: "$8" },
-      { name: "Loperamide", price: "$6" },
-      { name: "Omeprazole", price: "$9" },
-      { name: "Salbutamol Inhaler", price: "$15" },
-    ];
-    const medicineList = document.getElementById("medicineList");
-    const searchInput = document.getElementById("searchInput");
-
-    function displayMedicines(filter = "") {
-      medicineList.innerHTML = "";
-      medicines
-        .filter(m => m.name.toLowerCase().includes(filter.toLowerCase()))
-        .forEach(m => {
-          const card = document.createElement("div");
-          card.className = "bg-white rounded-lg p-4 shadow hover:shadow-lg transition";
-          card.innerHTML = `<h4 class="font-semibold text-lg text-gray-800 mb-2">${m.name}</h4><p class="text-teal-600 font-bold">${m.price}</p>`;
-          medicineList.appendChild(card);
-        });
+  /***** NAVBAR COMPONENT (updated + search + store/refill) *****/
+  function Navbar({ onOpenCart, cartCount, navigateTo, currentRoute }) {
+    const [query, setQuery] = useState('');
+    function onSearch(e) {
+      e.preventDefault();
+      // simple behavior: navigate to shop and set hash with search param
+      navigateTo('shop#' + encodeURIComponent(query));
     }
-    searchInput.addEventListener("input", e => displayMedicines(e.target.value));
-    displayMedicines();
+    return (
+      <header className="bg-white/80 backdrop-blur-md border-b border-green-100 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between gap-4">
+          {/* logo + title */}
+          <div className="flex items-center gap-4 cursor-pointer" onClick={() => navigateTo('home')}>
+            <img src="AllenCity Pharmacy Logo.png" alt="Allen City Pharmacy" className="h-11 w-11 object-contain" />
+            <div>
+              <div className="text-lg font-bold text-green-800">Allen City Pharmacy</div>
+              <div className="text-xs text-gray-500 -mt-1">Trusted Health Partner</div>
+            </div>
+          </div>
 
-    // Modal logic
-    const modal = document.getElementById('howModal');
-    document.getElementById('howBtn').addEventListener('click', () => modal.classList.remove('hidden'));
-    document.getElementById('closeModal').addEventListener('click', () => modal.classList.add('hidden'));
-    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.add('hidden'); });
+          {/* search (center) */}
+          <form onSubmit={onSearch} className="flex-1 max-w-2xl hidden md:flex items-center bg-white border rounded-lg overflow-hidden shadow-sm">
+            <input value={query} onChange={(e)=>setQuery(e.target.value)} placeholder="Search medicines, vitamins or health products" className="flex-1 p-2 px-4 text-sm outline-none" aria-label="Search products" />
+            <button type="submit" className="px-4 py-2 bg-[var(--acp-green)] text-white text-sm"><i className="fa fa-search"></i></button>
+          </form>
 
-    // Chatbot
-    const chatbotBtn = document.getElementById('chatbotBtn');
-    const chatbotWindow = document.getElementById('chatbotWindow');
-    const chatBody = document.getElementById('chatBody');
-    const chatInput = document.getElementById('chatInput');
-    const sendBtn = document.getElementById('sendBtn');
+          {/* right controls */}
+          <div className="flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-2">
+              <button onClick={() => navigateTo('store-locator')} className="text-sm text-gray-700 hover:text-green-700">Store Locator</button>
+              <button onClick={() => navigateTo('order')} className="text-sm text-gray-700 hover:text-green-700">Refill Rx</button>
+            </div>
 
-    chatbotBtn.addEventListener('click', () => {
-      chatbotWindow.style.display = chatbotWindow.style.display === 'flex' ? 'none' : 'flex';
+            <nav className="hidden md:flex items-center gap-4">
+              <button onClick={() => navigateTo('home')} className={`text-sm ${currentRoute==='home'?'font-semibold text-green-700':'text-gray-600'}`}>Home</button>
+              <button onClick={() => navigateTo('shop')} className={`text-sm ${currentRoute==='shop'?'font-semibold text-green-700':'text-gray-600'}`}>Shop</button>
+              <button onClick={() => navigateTo('services')} className={`text-sm ${currentRoute==='services'?'font-semibold text-green-700':'text-gray-600'}`}>Services</button>
+              <button onClick={() => navigateTo('contact')} className={`text-sm ${currentRoute==='contact'?'font-semibold text-green-700':'text-gray-600'}`}>Contact</button>
+            </nav>
+
+            {/* cart icon */}
+            <button onClick={onOpenCart} className="relative bg-white border px-3 py-2 rounded-lg shadow-sm hover:shadow-md">
+              <i className="fa fa-shopping-cart"></i>
+              <span className="hidden md:inline ml-2 text-sm">Cart</span>
+              {cartCount>0 && <span className="absolute -top-2 -right-2 bg-[var(--acp-green)] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">{cartCount}</span>}
+            </button>
+
+            {/* mobile: open search modal (simple) */}
+            <button onClick={() => { if(window.innerWidth<768) { const q = prompt('Search medicines'); if(q) navigateTo('shop#'+encodeURIComponent(q)); } }} className="md:hidden ml-2 bg-white p-2 rounded-lg shadow">
+              <i className="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
+  /***** PROMO BAR *****/
+  function PromoBar({ visible, onClose }) {
+    if (!visible) return null;
+    return (
+      <div className="bg-[var(--acp-orange)] text-white text-sm py-2 text-center">
+        🎉 Extra <strong>20% OFF</strong> on orders over ₱2,000 — use code <strong>FLASH20</strong>
+        <button onClick={onClose} className="ml-4 inline-block text-white/90">Dismiss</button>
+      </div>
+    );
+  }
+
+  /***** PRODUCT CARD *****/
+  function ProductCard({ product, onAdd }) {
+    return (
+      <div className="bg-white rounded-lg p-4 shadow hover:shadow-lg transition flex flex-col justify-between">
+        <div>
+          <h4 className="font-semibold text-lg text-gray-800 mb-2">{product.name}</h4>
+          <p className="text-[var(--acp-green)] font-bold mb-1">₱{product.price.toFixed(2)}</p>
+          <p className="text-sm text-gray-500 mb-3">{product.desc}</p>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="space-x-2">
+            {product.delivery && <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Delivery</span>}
+            {product.pickup && <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">Pickup</span>}
+          </div>
+          <div>
+            <button onClick={() => onAdd(product.id)} className="bg-[var(--acp-orange)] text-white px-3 py-2 rounded-md text-sm">Add</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /***** CART DRAWER *****/
+  function CartDrawer({ open, onClose, cart, setQty, removeFromCart, onProceed }) {
+    const ids = Object.keys(cart);
+    let total = 0;
+    ids.forEach(id => {
+      const p = PRODUCTS.find(x => x.id === id);
+      if (p) total += p.price * cart[id];
     });
 
-    sendBtn.addEventListener('click', sendMessage);
-    chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') sendMessage(); });
+    return (
+      <div className={`fixed right-6 top-20 w-96 max-h-[70vh] overflow-auto bg-white rounded-xl shadow-2xl p-4 z-50 transition-transform ${open ? 'translate-x-0' : 'translate-x-[120%]'}`}>
+        <div className="flex justify-between items-center mb-3">
+          <h4 className="font-semibold">Your Cart</h4>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">&times;</button>
+        </div>
 
-    function sendMessage() {
-      const text = chatInput.value.trim();
-      if (text === '') return;
-      appendMessage('user', text);
-      chatInput.value = '';
-      setTimeout(() => appendMessage('bot', getBotReply(text)), 600);
+        <div className="space-y-3 cart-scroll">
+          {ids.length === 0 && <div className="text-gray-500">Your cart is empty.</div>}
+          {ids.map(id => {
+            const qty = cart[id]; const p = PRODUCTS.find(x => x.id === id); if (!p) return null;
+            return (
+              <div key={id} className="flex items-center justify-between p-2 bg-white border rounded-md shadow-sm">
+                <div className="flex-1">
+                  <div className="font-semibold">{p.name}</div>
+                  <div className="text-sm text-gray-500">₱{p.price.toFixed(2)} x {qty}</div>
+                </div>
+                <div className="flex items-center space-x-2 ml-3">
+                  <input type="number" min="1" value={qty} onChange={(e) => setQty(id, parseInt(e.target.value) || 1)} className="w-16 p-1 border rounded text-sm" />
+                  <button onClick={() => removeFromCart(id)} className="text-sm text-red-500">Remove</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 flex justify-between items-center font-bold">
+          <span>Total</span>
+          <span>₱{total.toFixed(2)}</span>
+        </div>
+        <div className="mt-4">
+          <button onClick={onProceed} className="w-full text-center bg-[var(--acp-orange)] text-white px-4 py-2 rounded-md">Proceed to Checkout</button>
+        </div>
+      </div>
+    );
+  }
+
+  /***** CHATBOT (local) *****/
+  function ChatBot() {
+    const [open, setOpen] = useState(false);
+    const [messages, setMessages] = useState([{ from: 'bot', text: 'Hello! 👋 How can I help you?' }]);
+    const [text, setText] = useState('');
+
+    function send() {
+      if (!text.trim()) return;
+      setMessages(prev => [...prev, { from: 'user', text }]);
+      const userText = text;
+      setText('');
+      setTimeout(() => {
+        setMessages(prev => [...prev, { from: 'bot', text: localBotReply(userText) }]);
+      }, 400);
     }
 
-    function appendMessage(sender, text) {
-      const msg = document.createElement('div');
-      msg.classList.add('message', sender);
-      msg.textContent = text;
-      chatBody.appendChild(msg);
-      chatBody.scrollTop = chatBody.scrollHeight;
+    function localBotReply(t) {
+      const lower = t.toLowerCase();
+      if (lower.includes('hello') || lower.includes('hi')) return 'Hi! How can I help you today?';
+      if (lower.includes('medicine') || lower.includes('drug')) return 'Search medicines in the Shop section and add them to your cart.';
+      if (lower.includes('order')) return 'Go to Order or Checkout to upload prescription or place an order.';
+      if (lower.includes('hours') || lower.includes('open')) return 'We are open Mon-Fri 9:00am - 6:00pm.';
+      return 'I can help with refills, store hours, and order tracking.';
     }
 
-    function getBotReply(text) {
-      const lower = text.toLowerCase();
-      if (lower.includes('hello')) return 'Hi! How can I help you today?';
-      if (lower.includes('medicine')) return 'You can search medicines using the search bar above!';
-      if (lower.includes('order')) return 'You can upload your prescription in the "Order" section.';
-      return 'I’m here to assist with any pharmacy-related questions.';
+    return (
+      <div className="fixed right-6 bottom-6 z-50">
+        <button onClick={() => setOpen(v => !v)} className="bg-[var(--acp-green)] text-white rounded-full w-14 h-14 shadow-lg">💬</button>
+        {open && (
+          <div className="w-80 h-[420px] bg-white rounded-2xl shadow-xl mt-3 overflow-hidden flex flex-col">
+            <div className="bg-[var(--acp-green)] text-white p-3 font-semibold text-center">💊 Allen City Chat</div>
+            <div className="flex-1 p-3 overflow-y-auto flex flex-col gap-3">
+              {messages.map((m, i) => (
+                <div key={i} className={m.from === 'bot' ? 'self-start bg-white p-3 rounded-lg shadow-sm' : 'self-end bg-[var(--acp-green)] text-white p-3 rounded-lg'}>
+                  {m.text}
+                </div>
+              ))}
+            </div>
+            <div className="p-3 border-t border-gray-100 flex gap-2">
+              <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Type your message..." className="flex-1 p-2 border border-gray-200 rounded-md" />
+              <button onClick={send} className="bg-[var(--acp-green)] text-white px-3 py-2 rounded-md">Send</button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  /***** HOME PAGE (original preserved + new sections) *****/
+  function Home({ navigateTo, onAddToCart }) {
+    // featured from PRODUCTS
+    const featured = PRODUCTS.slice(0,4);
+
+    return (
+      <div>
+        {/* HERO */}
+        <section className="relative text-white h-[64vh] flex items-center justify-center hero-zoom" style={{ backgroundImage: `linear-gradient(135deg, rgba(34,197,94,0.75) 0%, rgba(249,115,22,0.6) 100%), url('https://images.unsplash.com/photo-1582719478185-2a3ef7f9b2a6?auto=format&fit=crop&w=1400&q=60')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className="absolute inset-0 bg-black/30"></div>
+          <div className="relative text-center px-6 max-w-3xl">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">Your Health, Our Priority</h2>
+            <p className="text-lg mb-8 drop-shadow-md">Fast, trusted, and caring — your neighborhood pharmacy at your fingertips.</p>
+
+            <div className="flex justify-center space-x-4">
+              <button onClick={() => navigateTo('order')} className="bg-[var(--acp-orange)] hover:opacity-95 px-6 py-3 rounded-lg font-semibold text-white transition">Order Prescription</button>
+              <button onClick={() => alert('Upload a prescription in the Order section.')} className="bg-white text-[var(--acp-green)] hover:bg-gray-100 px-6 py-3 rounded-lg font-semibold transition">How Does This Work?</button>
+            </div>
+          </div>
+        </section>
+
+        {/* Featured Medicines */}
+        <section className="py-12 bg-gray-100">
+          <div className="max-w-6xl mx-auto text-center px-4">
+            <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6">Featured Medicines</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              {featured.map(p => <ProductCard key={p.id} product={p} onAdd={onAddToCart} />)}
+            </div>
+          </div>
+        </section>
+
+        {/* Value Blocks */}
+        <section className="py-12">
+          <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-lg shadow text-center">
+              <h4 className="font-semibold mb-2">Refill Prescriptions</h4>
+              <p className="text-sm text-gray-600 mb-4">Quickly refill using your RX number.</p>
+              <button onClick={() => navigateTo('order')} className="bg-[var(--acp-green)] text-white px-4 py-2 rounded">Refill Now</button>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow text-center">
+              <h4 className="font-semibold mb-2">Fast Delivery</h4>
+              <p className="text-sm text-gray-600 mb-4">Get medicines delivered to your doorstep.</p>
+              <button onClick={() => navigateTo('shop')} className="bg-[var(--acp-green)] text-white px-4 py-2 rounded">Shop</button>
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow text-center">
+              <h4 className="font-semibold mb-2">Trusted Care</h4>
+              <p className="text-sm text-gray-600 mb-4">Licensed pharmacists are available to help.</p>
+              <button onClick={() => navigateTo('contact')} className="bg-[var(--acp-green)] text-white px-4 py-2 rounded">Contact</button>
+            </div>
+          </div>
+        </section>
+
+        {/* Flash Deals */}
+        <section className="py-6 bg-white">
+          <div className="max-w-6xl mx-auto px-4 text-center">
+            <span className="text-orange-500 font-semibold">🎉 Flash Deal!</span>
+            <span className="font-bold"> Get extra 20% off orders ₱2,000+ — use code <strong>FLASH20</strong></span>
+            <button className="ml-4 bg-[var(--acp-green)] text-white px-3 py-1 rounded hover:bg-green-700 transition" onClick={() => navigateTo('shop')}>Shop Now</button>
+          </div>
+        </section>
+
+        {/* Shop by Category */}
+        <section className="py-12 bg-gray-50">
+          <div className="max-w-6xl mx-auto px-4">
+            <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6 text-center">Shop by Category</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-6">
+              {[
+                { name: "Vitamins", icon: "fa-pills" },
+                { name: "Cold & Flu", icon: "fa-head-side-cough" },
+                { name: "Allergy", icon: "fa-allergies" },
+                { name: "Digestive", icon: "fa-pear" },
+                { name: "Skin Care", icon: "fa-hand-holding-medical" },
+                { name: "Respiratory", icon: "fa-lungs" },
+              ].map((cat) => (
+                <div key={cat.name} className="flex flex-col items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition cursor-pointer" onClick={() => navigateTo('shop')}>
+                  <i className={`fa ${cat.icon} text-[var(--acp-green)] text-2xl mb-2`}></i>
+                  <span className="text-sm font-semibold text-gray-700">{cat.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Health Services */}
+        <section className="py-12">
+          <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
+            <img src="https://images.unsplash.com/photo-1633099917978-69abf2e70915?auto=format&fit=crop&w=800&q=60" alt="Health services" className="rounded-lg shadow-lg" />
+            <div>
+              <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-4">Health Services & Clinics</h3>
+              <p className="text-gray-600 mb-4">Beyond medicines, we offer health services such as:</p>
+              <ul className="list-disc ml-5 space-y-2 text-gray-700">
+                <li>Vaccinations & boosters</li>
+                <li>Flu & COVID-19 testing</li>
+                <li>Consultation with licensed pharmacists</li>
+                <li>Prescription transfer & management</li>
+              </ul>
+              <button onClick={() => navigateTo('services')} className="mt-4 bg-[var(--acp-orange)] text-white px-5 py-3 rounded-lg hover:bg-orange-600 transition">View Services</button>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="py-12 bg-gray-100">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6">What Our Customers Say</h3>
+            <div className="space-y-6">
+              {[
+                { name: "Maria S.", msg: "Reliable, quick delivery — highly recommended!" },
+                { name: "Jose R.", msg: "Pharmacists were very helpful with my questions." },
+                { name: "Ana L.", msg: "Great prices and smooth checkout experience." },
+              ].map((t, idx) => (
+                <div key={idx} className="bg-white p-6 rounded-lg shadow-md">
+                  <p className="text-gray-700 italic">“{t.msg}”</p>
+                  <div className="mt-3 font-semibold text-green-800">— {t.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* App Download Banner */}
+        <section className="py-10">
+          <div className="max-w-6xl mx-auto px-4 bg-gradient-to-r from-white/60 to-white/30 rounded-lg p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div>
+              <h4 className="text-2xl font-bold text-[var(--acp-green)]">Order faster with our app</h4>
+              <p className="text-gray-700">Download the Allen City Pharmacy app for quick refills, easy tracking, and special member-only deals.</p>
+            </div>
+            <div className="flex gap-3">
+              <button className="bg-black text-white px-4 py-2 rounded flex items-center gap-2"><i className="fa fa-apple"></i> App Store</button>
+              <button className="bg-black text-white px-4 py-2 rounded flex items-center gap-2"><i className="fa fa-google-play"></i> Google Play</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  /***** SHOP PAGE *****/
+  function Shop({ onAdd }) {
+    const [query, setQuery] = useState(() => {
+      // read hash search if present: shop#term
+      const h = location.hash || '';
+      if(h.startsWith('#shop#')) return decodeURIComponent(h.replace('#shop#',''));
+      return '';
+    });
+    const [filtered, setFiltered] = useState(PRODUCTS);
+
+    useEffect(()=> {
+      const qLower = query.toLowerCase();
+      setFiltered(PRODUCTS.filter(p => p.name.toLowerCase().includes(qLower) || p.desc.toLowerCase().includes(qLower)));
+    }, [query]);
+
+    return (
+      <div className="max-w-6xl mx-auto py-12 px-4">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-3xl font-bold text-[var(--acp-green)]">Shop Medicines</h3>
+          <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search medicines..." className="border p-2 rounded w-64" />
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {filtered.map(p => (
+            <div key={p.id}>
+              <ProductCard product={p} onAdd={onAdd} />
+              <div className="mt-2 text-right">
+                <button onClick={() => alert(`${p.name}\nPrice: ₱${p.price.toFixed(2)}\n\n${p.desc}`)} className="text-sm text-gray-600 underline">View</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  /***** ORDER PAGE *****/
+  function Order({ navigateTo }) {
+    const [file, setFile] = useState(null);
+    const [address, setAddress] = useState('');
+    const [rx, setRx] = useState('');
+
+    function submit(e) {
+      e.preventDefault();
+      if (!file && !rx) return alert('Provide a prescription file or RX number');
+      if (!address) return alert('Provide delivery address');
+      const order = { id: Date.now(), address, rx, fileName: file ? file.name : null, placedAt: new Date().toISOString() };
+      try { localStorage.setItem('last_order', JSON.stringify(order)); } catch (e) {}
+      alert('Order submitted! We will contact you shortly to confirm.');
+      setFile(null); setAddress(''); setRx('');
+      navigateTo('home');
     }
+
+    return (
+      <div className="max-w-4xl mx-auto py-12 px-4">
+        <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6">Order Your Prescription</h3>
+        <form onSubmit={submit} className="bg-white p-8 rounded-xl shadow-md space-y-4">
+          <input type="file" accept=".jpg,.jpeg,.png,.pdf" onChange={e => setFile(e.target.files[0])} className="block w-full text-gray-700 border border-gray-300 rounded-md p-3 mb-2" />
+          <input value={address} onChange={e => setAddress(e.target.value)} placeholder="Delivery Address" className="block w-full border border-gray-300 rounded-md p-3" />
+          <div className="text-sm text-gray-500">Or refill using your RX number</div>
+          <input value={rx} onChange={e => setRx(e.target.value)} placeholder="RX Number" className="block w-full border border-gray-300 rounded-md p-3" />
+          <div className="flex items-center justify-between">
+            <button type="submit" className="bg-[var(--acp-green)] hover:bg-[#15873f] text-white px-6 py-3 rounded-md font-semibold">Submit Order</button>
+            <div className="text-sm text-gray-500">Or go to <button onClick={() => navigateTo('checkout')} className="text-[var(--acp-orange)] underline">Checkout</button></div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  /***** CHECKOUT PAGE *****/
+  function Checkout({ cart, setQty, removeFromCart, clearCart, navigateTo }) {
+    const ids = Object.keys(cart);
+    const [name, setName] = useState('');
+    const [address, setAddress] = useState('');
+    const [phone, setPhone] = useState('');
+    const [payment, setPayment] = useState('Cash on Delivery');
+
+    const total = useMemo(() => ids.reduce((s, id) => {
+      const p = PRODUCTS.find(x => x.id === id);
+      return s + (p ? p.price * cart[id] : 0);
+    }, 0), [cart]);
+
+    function submit(e) {
+      e.preventDefault();
+      if (ids.length === 0) return alert('Your cart is empty.');
+      if (!name || !address || !phone) return alert('Please fill in delivery details.');
+      const order = { id: Date.now(), name, address, phone, cart, payment, placedAt: new Date().toISOString() };
+      try { localStorage.setItem('last_checkout', JSON.stringify(order)); } catch (e) {}
+      clearCart();
+      alert('Order placed! Thank you. We will contact you to confirm delivery.');
+      navigateTo('thankyou');
+    }
+
+    return (
+      <div className="max-w-4xl mx-auto py-12 px-4">
+        <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6 text-center">Checkout</h3>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
+            <h4 className="font-semibold mb-4">Your Cart</h4>
+            <div className="space-y-3">
+              {ids.length === 0 && <div className="text-gray-500">Your cart is empty.</div>}
+              {ids.map(id => {
+                const qty = cart[id]; const p = PRODUCTS.find(x => x.id === id); if (!p) return null;
+                return (
+                  <div key={id} className="flex justify-between items-center py-2 border-b">
+                    <div>{p.name} <span className='text-sm text-gray-500'>x{qty}</span></div>
+                    <div>₱{(p.price * qty).toFixed(2)}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-4 flex justify-between items-center font-bold">
+              <span>Total</span>
+              <span>₱{total.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <h4 className="font-semibold mb-4">Delivery & Payment</h4>
+            <form onSubmit={submit} className="space-y-4">
+              <input value={name} onChange={e => setName(e.target.value)} type="text" placeholder="Full name" className="block w-full border border-gray-300 rounded-md p-3" />
+              <input value={address} onChange={e => setAddress(e.target.value)} type="text" placeholder="Delivery address" className="block w-full border border-gray-300 rounded-md p-3" />
+              <input value={phone} onChange={e => setPhone(e.target.value)} type="tel" placeholder="Phone number" className="block w-full border border-gray-300 rounded-md p-3" />
+
+              <label className="block text-sm">Payment method</label>
+              <select value={payment} onChange={e => setPayment(e.target.value)} className="w-full border border-gray-300 rounded-md p-3 mb-2">
+                <option>Cash on Delivery</option>
+                <option>Credit / Debit Card</option>
+                <option>GCash / MobilePay</option>
+              </select>
+
+              <button type="submit" className="bg-[var(--acp-orange)] text-white px-5 py-3 rounded-md font-semibold">Place Order</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /***** THANK YOU PAGE *****/
+  function ThankYou({ navigateTo }) {
+    return (
+      <div className="max-w-3xl mx-auto py-24 px-4 text-center">
+        <div className="bg-white rounded-2xl shadow-lg border border-green-100 p-10">
+          <div className="flex flex-col items-center">
+            <div className="bg-green-700 text-white rounded-full h-20 w-20 flex items-center justify-center mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-bold text-[var(--acp-green)] mb-4">Thank you — your order is placed!</h2>
+            <p className="mb-6">We will contact you shortly to confirm your medicines and delivery time.</p>
+            <button onClick={() => navigateTo('home')} className="bg-[var(--acp-orange)] text-white px-6 py-3 rounded-md">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /***** CONTACT PAGE *****/
+  function Contact() {
+    return (
+      <div className="max-w-4xl mx-auto py-12 px-4">
+        <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6">Get In Touch</h3>
+        <p className="mb-2">📍 123 Wellness Avenue, Allen City, TX, USA</p>
+        <p className="mb-2">📞 (123) 456-7890</p>
+        <p>✉️ info@allencitypharmacy.com</p>
+        <div className="mt-6 bg-white p-4 rounded shadow">
+          <iframe title="map" className="w-full h-64 rounded" src="https://www.google.com/maps?q=Allen,TX&output=embed"></iframe>
+        </div>
+      </div>
+    );
+  }
+
+  /***** SERVICES PAGE *****/
+  function ServicesPage() {
+    return (
+      <div className="max-w-6xl mx-auto py-12 px-4">
+        <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6">Our Services</h3>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h4 className="font-semibold mb-2">Vaccinations</h4>
+            <p className="text-sm text-gray-600">Flu, COVID-19, and a range of routine immunizations.</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h4 className="font-semibold mb-2">Medication Review</h4>
+            <p className="text-sm text-gray-600">Consult with pharmacists about dosing and interactions.</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow">
+            <h4 className="font-semibold mb-2">Testing & Screening</h4>
+            <p className="text-sm text-gray-600">Rapid testing for common conditions and point-of-care services.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /***** STORE LOCATOR PAGE *****/
+  function StoreLocator() {
+    return (
+      <div className="max-w-5xl mx-auto py-12 px-4">
+        <h3 className="text-3xl font-bold text-[var(--acp-green)] mb-6">Store Locator</h3>
+        <p className="text-gray-700 mb-4">Find the nearest Allen City Pharmacy store.</p>
+        <div className="bg-white p-6 rounded-lg shadow">
+          <p>Search by city or ZIP code:</p>
+          <div className="mt-3 flex gap-2">
+            <input className="flex-1 border p-2 rounded" placeholder="Enter city or ZIP" />
+            <button className="bg-[var(--acp-green)] text-white px-4 py-2 rounded">Search</button>
+          </div>
+          <div className="mt-6 text-sm text-gray-600">Sample store: Allen City Branch — 123 Wellness Ave — Open 9am–6pm</div>
+        </div>
+      </div>
+    );
+  }
+
+  /***** FOOTER (enhanced) *****/
+  function Footer() {
+    return (
+      <footer className="bg-gray-900 text-gray-300 py-10 mt-8">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4">
+          <div>
+            <h5 className="text-white font-semibold mb-3">About Allen City</h5>
+            <p>Your trusted local online pharmacy, committed to convenience, care, and community.</p>
+            <div className="mt-4 text-sm">📞 (123) 456-7890</div>
+            <div className="text-sm">✉️ info@allencitypharmacy.com</div>
+          </div>
+
+          <div>
+            <h5 className="text-white font-semibold mb-3">Customer Service</h5>
+            <ul className="space-y-2 text-sm">
+              <li><button className="hover:text-white" onClick={() => alert('FAQ')}>FAQ</button></li>
+              <li><button className="hover:text-white" onClick={() => alert('Shipping & Delivery')}>Shipping & Delivery</button></li>
+              <li><button className="hover:text-white" onClick={() => alert('Returns Policy')}>Returns Policy</button></li>
+              <li><button className="hover:text-white" onClick={() => alert('Contact Us')}>Contact Us</button></li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 className="text-white font-semibold mb-3">Our Pharmacy</h5>
+            <ul className="space-y-2 text-sm">
+              <li><button className="hover:text-white" onClick={() => alert('Refill')}>Refill Prescriptions</button></li>
+              <li><button className="hover:text-white" onClick={() => alert('Transfer')}>Transfer Prescription</button></li>
+              <li><button className="hover:text-white" onClick={() => alert('Immunizations')}>Immunizations</button></li>
+            </ul>
+          </div>
+
+          <div>
+            <h5 className="text-white font-semibold mb-3">Connect</h5>
+            <ul className="flex space-x-4 text-xl">
+              <li><a href="#" className="text-gray-400 hover:text-white"><i className="fab fa-facebook-f"></i></a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white"><i className="fab fa-twitter"></i></a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white"><i className="fab fa-instagram"></i></a></li>
+            </ul>
+            <p className="mt-4 text-xs">&copy; 2025 Allen City Pharmacy. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
+  /***** APP ROOT *****/
+  function AppRoot() {
+    // route: 'home' | 'shop' | 'order' | 'checkout' | 'thankyou' | 'contact' | 'services' | 'store-locator'
+    const [route, setRoute] = useState(() => location.hash.replace('#','') || 'home');
+    const [promoVisible, setPromoVisible] = useLocalStorageState('acp_promo_visible', true);
+    const [cart, setCart] = useLocalStorageState(CART_KEY, {});
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    // hash sync
+    useEffect(() => {
+      function onHash() {
+        setRoute(location.hash.replace('#','') || 'home');
+      }
+      window.addEventListener('hashchange', onHash);
+      return () => window.removeEventListener('hashchange', onHash);
+    }, []);
+    useEffect(() => { location.hash = route; }, [route]);
+
+    // cart utilities
+    function addToCart(id, qty = 1) { setCart(prev => ({ ...prev, [id]: (prev[id] || 0) + qty })); }
+    function setQty(id, qty) {
+      setCart(prev => { const copy = { ...prev }; if (qty <= 0) delete copy[id]; else copy[id] = qty; return copy; });
+    }
+    function removeFromCart(id) { setCart(prev => { const copy = { ...prev }; delete copy[id]; return copy; }); }
+    function clearCart() { setCart({}); try { localStorage.removeItem(CART_KEY); } catch {} }
+
+    // cart count
+    const cartCount = Object.values(cart).reduce((s, v) => s + v, 0);
+
+    function navigateTo(r) { setRoute(r); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    function openDrawer() { setDrawerOpen(true); }
+    function proceedToCheckout() { setDrawerOpen(false); navigateTo('checkout'); }
+
+    // route content
+    let Content = null;
+    if (route === 'home') Content = <Home navigateTo={navigateTo} onAddToCart={addToCart} />;
+    else if (route.startsWith('shop')) Content = <Shop onAdd={addToCart} />;
+    else if (route === 'order') Content = <Order navigateTo={navigateTo} />;
+    else if (route === 'checkout') Content = <Checkout cart={cart} setQty={setQty} removeFromCart={removeFromCart} clearCart={clearCart} navigateTo={navigateTo} />;
+    else if (route === 'thankyou') Content = <ThankYou navigateTo={navigateTo} />;
+    else if (route === 'contact') Content = <Contact />;
+    else if (route === 'services') Content = <ServicesPage />;
+    else if (route === 'store-locator') Content = <StoreLocator />;
+    else Content = <Home navigateTo={navigateTo} onAddToCart={addToCart} />;
+
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar onOpenCart={openDrawer} cartCount={cartCount} navigateTo={navigateTo} currentRoute={route} />
+        <PromoBar visible={promoVisible} onClose={() => setPromoVisible(false)} />
+        <main className="flex-1">{Content}</main>
+        <Footer />
+        <CartDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} cart={cart} setQty={setQty} removeFromCart={removeFromCart} onProceed={proceedToCheckout} />
+        <ChatBot />
+      </div>
+    );
+  }
+
+  // Render
+  ReactDOM.createRoot(document.getElementById('root')).render(<AppRoot />);
+
   </script>
 </body>
 </html>
