@@ -1,9 +1,14 @@
-import { useEffect, useRef } from "react";
-// If using npm: npm install @createjs/easeljs
-// import * as createjs from "@createjs/easeljs";
-declare const createjs: any; // use CDN in index.html
+import React, { useEffect, useRef } from "react";
 
-const AboutPage = () => {
+// Declare CreateJS globally (if loaded via CDN)
+declare global {
+  interface Window {
+    createjs: any;
+  }
+}
+declare const createjs: any;
+
+const AboutPage: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -18,48 +23,51 @@ const AboutPage = () => {
       canvas.height = 240 * window.devicePixelRatio;
       stage.update();
     };
+
     setCanvasSize();
 
-    // Animated pills
-    const pills: any[] = [];
+    // Animated floating pills
+    const pills: createjs.Shape[] = [];
     const colors = ["#ffffff", "#ffcc80", "#c8e6c9", "#b2dfdb"];
+
     for (let i = 0; i < 30; i++) {
       const pill = new createjs.Shape();
       pill.graphics
         .beginFill(colors[Math.floor(Math.random() * colors.length)])
         .drawRoundRect(0, 0, 40, 15, 8);
-      pill.x = Math.random() * canvas.width / devicePixelRatio;
-      pill.y = Math.random() * canvas.height / devicePixelRatio;
-      pill.speed = 0.5 + Math.random() * 1.5;
+      pill.x = Math.random() * (canvas.width / window.devicePixelRatio);
+      pill.y = Math.random() * (canvas.height / window.devicePixelRatio);
+      (pill as any).speed = 0.5 + Math.random() * 1.5;
       pills.push(pill);
       stage.addChild(pill);
     }
 
-    // Banner text
-    const bannerText = new createjs.Text("Allen City Pharmacy", "bold 32px Segoe UI", "#ffffff");
+    const bannerText = new createjs.Text(
+      "About Allen City Pharmacy",
+      "bold 32px Segoe UI",
+      "#ffffff"
+    );
     bannerText.textAlign = "center";
-    bannerText.x = canvas.width / devicePixelRatio / 2;
+    bannerText.x = canvas.width / window.devicePixelRatio / 2;
     bannerText.y = 100;
     stage.addChild(bannerText);
 
-    // Animation ticker
     createjs.Ticker.framerate = 60;
     createjs.Ticker.addEventListener("tick", () => {
-      pills.forEach(p => {
-        p.y -= p.speed;
+      pills.forEach((p) => {
+        p.y -= (p as any).speed;
         if (p.y < -20) {
-          p.y = canvas.height / devicePixelRatio + 10;
-          p.x = Math.random() * canvas.width / devicePixelRatio;
+          p.y = canvas.height / window.devicePixelRatio + 10;
+          p.x = Math.random() * (canvas.width / window.devicePixelRatio);
         }
       });
       bannerText.alpha = 0.8 + Math.sin(createjs.Ticker.getTime() / 300) * 0.2;
       stage.update();
     });
 
-    // Resize listener
     const handleResize = () => {
       setCanvasSize();
-      bannerText.x = canvas.width / devicePixelRatio / 2;
+      bannerText.x = canvas.width / window.devicePixelRatio / 2;
       stage.update();
     };
 
@@ -73,120 +81,183 @@ const AboutPage = () => {
 
   return (
     <div className="font-poppins text-gray-800 min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Navbar */}
-      <nav id="mainNav" className="flex justify-between items-center p-6 bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-lg">
-        <h1 className="text-2xl font-semibold">Allen City Pharmacy</h1>
-        <div className="hidden md:flex gap-8">
-          <a href="#about" className="hover:text-yellow-300 transition">About</a>
-          <a href="#services" className="hover:text-yellow-300 transition">Services</a>
-          <a href="#leadership" className="hover:text-yellow-300 transition">Team</a>
-          <a href="#press" className="hover:text-yellow-300 transition">Press</a>
-          <a href="#contact" className="hover:text-yellow-300 transition">Contact</a>
-        </div>
-      </nav>
-
-      {/* Banner */}
+      {/* Animated Banner */}
       <section className="relative w-full bg-gradient-to-r from-cyan-500 to-blue-600 text-center text-white overflow-hidden">
-        <canvas ref={canvasRef} id="pharmacyBanner" className="w-full h-60"></canvas>
+        <canvas ref={canvasRef} className="w-full h-60" />
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <h2 className="text-4xl md:text-5xl font-bold drop-shadow-lg">Your Trusted Online Pharmacy</h2>
-          <p className="mt-4 text-lg opacity-90">Caring for your health, one prescription at a time</p>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section id="about" className="max-w-6xl mx-auto py-20 px-6 grid md:grid-cols-2 gap-10 items-center" >
-        <div>
-          <img
-            id="aboutImageWrapper"
-            src="https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=800&q=80"
-            alt="Pharmacy shelves"
-            className="rounded-2xl shadow-md"
-          />
-        </div>
-        <div id="aboutTextWrapper">
-          <h3 className="text-3xl font-semibold mb-4 text-blue-700">About Us</h3>
-          <p className="text-lg leading-relaxed">
-            Allen City Pharmacy is your trusted partner in healthcare. We combine modern pharmaceutical services
-            with compassionate customer care to ensure every patient receives the attention they deserve.
+          <h2 className="text-4xl md:text-5xl font-bold drop-shadow-lg">
+            Your Trusted Online Pharmacy
+          </h2>
+          <p className="mt-4 text-lg opacity-90">
+            Caring for your health, one prescription at a time.
           </p>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="bg-blue-50 py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h3 className="text-3xl font-semibold text-blue-700 mb-12">Our Services</h3>
-          <div id="servicesGrid" className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Content Section */}
+      <section className="max-w-6xl mx-auto py-20 px-6 space-y-20">
+        {/* About / Overview */}
+        <div className="grid md:grid-cols-2 gap-10 items-center">
+          <img
+            src="https://images.unsplash.com/photo-1584433144859-1fc3ab64a957?auto=format&fit=crop&w=800&q=80"
+            alt="Pharmacy shelves"
+            className="rounded-2xl shadow-md"
+          />
+          <div>
+            <h3 className="text-3xl font-semibold mb-4 text-blue-700">
+              About Us
+            </h3>
+            <p className="text-lg leading-relaxed">
+              Allen City Pharmacy is committed to bringing quality,
+              affordable healthcare to our communities. We combine modern
+              pharmaceutical practices with compassionate customer care so
+              that every patient feels seen, respected, and well served.
+            </p>
+            <p className="mt-4 text-gray-700 leading-relaxed">
+              From prescription refills and consultations to wellness products
+              and vaccinations, we tailor our services to your needs with
+              integrity and innovation.
+            </p>
+          </div>
+        </div>
+
+        {/* Milestones */}
+        <div>
+          <h3 className="text-3xl font-semibold mb-8 text-blue-700">
+            Our Journey & Milestones
+          </h3>
+          <ul className="space-y-6 list-disc list-inside text-gray-700">
+            <li>
+              <strong>1949</strong> — Founded as a pharmaceutical import and
+              wholesale company.
+            </li>
+            <li>
+              <strong>2001</strong> — First retail pharmacy branch opened,
+              serving local communities and building trust.
+            </li>
+            <li>
+              <strong>2007</strong> — Expanded into franchising, allowing
+              more branches across Metro areas.
+            </li>
+            <li>
+              <strong>2016</strong> — Formed strategic partnerships to reach
+              more Filipinos nationwide.
+            </li>
+            <li>
+              <strong>2025</strong> — Over 2,000 branches nationwide, becoming
+              one of the largest pharmacy networks in the country.
+            </li>
+          </ul>
+        </div>
+
+        {/* Mission / Vision / Values */}
+        <div className="space-y-8">
+          <h3 className="text-3xl font-semibold text-blue-700">
+            Mission, Vision & Values
+          </h3>
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="p-6 bg-white rounded-xl shadow">
+              <h4 className="text-xl font-semibold mb-3">Mission</h4>
+              <p className="text-gray-700 leading-relaxed">
+                To provide safe, quality, and cost-effective medicines and
+                healthcare products to every Filipino, while fostering growth
+                with franchisees, suppliers, and communities.
+              </p>
+            </div>
+            <div className="p-6 bg-white rounded-xl shadow">
+              <h4 className="text-xl font-semibold mb-3">Vision</h4>
+              <p className="text-gray-700 leading-relaxed">
+                To be the most trusted partner in accessible, affordable
+                healthcare for all Filipinos — because we care, you matter.
+              </p>
+            </div>
+            <div className="p-6 bg-white rounded-xl shadow">
+              <h4 className="text-xl font-semibold mb-3">Core Values</h4>
+              <ul className="list-disc list-inside text-gray-700 space-y-2">
+                <li>Integrity & Transparency</li>
+                <li>Compassion & Respect</li>
+                <li>Excellence & Innovation</li>
+                <li>Affordability & Accessibility</li>
+                <li>Shared Growth & Partnerships</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Leadership */}
+        <div>
+          <h3 className="text-3xl font-semibold mb-8 text-blue-700">
+            Our Leadership
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
-              { title: "Prescription Refills", desc: "Easily refill your prescriptions online or in-store." },
-              { title: "Medication Consultation", desc: "Get expert advice from our licensed pharmacists." },
-              { title: "Prescription Delivery", desc: "Fast and safe delivery straight to your home." },
-              { title: "Controlled Medications", desc: "Upload and manage your controlled prescriptions securely." },
-              { title: "Wellness Products", desc: "Shop vitamins, supplements, and personal care essentials." },
-              { title: "Immunizations", desc: "Stay protected with convenient vaccination services." },
+              { name: "Dr. Sarah Mendoza", role: "Chief Pharmacist" },
+              { name: "Allen Cruz", role: "Founder & CEO" },
+              { name: "Maria Lopez", role: "Operations Manager" },
+            ].map((leader, i) => (
+              <div
+                key={i}
+                className="p-6 bg-white rounded-xl shadow hover:shadow-lg transition"
+              >
+                <img
+                  src={`https://randomuser.me/api/portraits/${i % 2 ? "women" : "men"}/${i + 12}.jpg`}
+                  alt={leader.name}
+                  className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
+                />
+                <h4 className="text-xl font-semibold text-blue-600 text-center">
+                  {leader.name}
+                </h4>
+                <p className="text-gray-500 text-center">{leader.role}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Services */}
+        <div id="services">
+          <h3 className="text-3xl font-semibold mb-8 text-blue-700 text-center">
+            What We Offer
+          </h3>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                title: "Prescription Refills",
+                desc: "Refill your prescriptions online or at any branch.",
+              },
+              {
+                title: "Medication Consultation",
+                desc: "Expert advice from certified pharmacists.",
+              },
+              {
+                title: "Home Delivery",
+                desc: "Fast and secure delivery to your door.",
+              },
+              {
+                title: "Wellness Products",
+                desc: "Vitamins, supplements, and health essentials.",
+              },
+              {
+                title: "Vaccination Services",
+                desc: "Safe immunization programs for your protection.",
+              },
+              {
+                title: "Community Health Programs",
+                desc: "Medical outreach and wellness drives in local areas.",
+              },
             ].map((s, i) => (
-              <div key={i} className="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-                <h4 className="text-xl font-semibold mb-3 text-blue-600">{s.title}</h4>
+              <div
+                key={i}
+                className="p-6 bg-white rounded-xl shadow hover:shadow-lg transition transform hover:-translate-y-1"
+              >
+                <h4 className="text-xl font-semibold mb-3 text-blue-600">
+                  {s.title}
+                </h4>
                 <p className="text-gray-600">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Leadership Section */}
-      <section id="leadership" className="max-w-6xl mx-auto py-20 px-6 text-center">
-        <h3 className="text-3xl font-semibold text-blue-700 mb-12">Our Leadership</h3>
-        <div id="leadershipGrid" className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {[
-            { name: "Dr. Sarah Mendoza", role: "Chief Pharmacist" },
-            { name: "Allen Cruz", role: "Founder & CEO" },
-            { name: "Maria Lopez", role: "Operations Manager" },
-          ].map((leader, i) => (
-            <div key={i} className="p-6 bg-white rounded-xl shadow hover:shadow-lg transition">
-              <img
-                src={`https://randomuser.me/api/portraits/${i % 2 ? "women" : "men"}/${i + 12}.jpg`}
-                alt={leader.name}
-                className="w-32 h-32 rounded-full mx-auto mb-4 object-cover"
-              />
-              <h4 className="text-xl font-semibold text-blue-600">{leader.name}</h4>
-              <p className="text-gray-500">{leader.role}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Press Section */}
-      <section id="press" className="bg-blue-50 py-20">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h3 className="text-3xl font-semibold text-blue-700 mb-12">In the Press</h3>
-          <div id="pressGrid" className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { title: "Local Pharmacy of the Year 2025", source: "Health Journal" },
-              { title: "Revolutionizing Online Prescription Access", source: "Daily Metro News" },
-              { title: "Community-Driven Care You Can Trust", source: "The Medical Review" },
-            ].map((p, i) => (
-              <div key={i} className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
-                <h4 className="text-xl font-semibold text-blue-600 mb-2">{p.title}</h4>
-                <p className="text-gray-500">{p.source}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <footer id="contact" className="bg-gradient-to-r from-blue-700 to-cyan-500 text-white text-center py-12">
-        <h3 className="text-2xl font-semibold mb-4">Contact Us</h3>
-        <p>Email: support@allencitypharmacy.com | Phone: (555) 123-4567</p>
-        <div className="flex justify-center gap-6 mt-6">
-          <a href="#" className="hover:text-yellow-300">Facebook</a>
-          <a href="#" className="hover:text-yellow-300">Twitter</a>
-          <a href="#" className="hover:text-yellow-300">Instagram</a>
-        </div>
-        <p className="mt-8 text-sm opacity-80">© 2025 Allen City Pharmacy. All rights reserved.</p>
-      </footer>
     </div>
   );
 };

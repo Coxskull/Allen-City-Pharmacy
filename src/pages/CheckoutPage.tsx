@@ -34,7 +34,6 @@ const CheckOutPage: React.FC = () => {
     tos: false,
   });
 
-  // Load stored cart data
   useEffect(() => {
     const data = localStorage.getItem("checkoutData");
     if (data) {
@@ -42,23 +41,18 @@ const CheckOutPage: React.FC = () => {
     }
   }, []);
 
-  // Handle input changes
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { id, value, type } = e.target;
-
     setFormData((prev) => ({
       ...prev,
-      [id]:
-        type === "checkbox"
-          ? (e.target as HTMLInputElement).checked
-          : value,
+      [id]: type === "checkbox" ? (e.target as HTMLInputElement).checked : value,
     }));
   };
 
-
-  // Place order
   const handlePlaceOrder = () => {
     if (!formData.tos) {
       alert("Please agree to the terms and privacy policy.");
@@ -72,44 +66,34 @@ const CheckOutPage: React.FC = () => {
 
   return (
     <div className="text-gray-800 font-sans bg-[linear-gradient(135deg,#22c55e_0%,#f97316_100%)] bg-fixed min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-md border-b border-green-100">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <main className="max-w-6xl mx-auto px-6 py-12 flex-grow">
+        {/* Progress Tracker */}
+        <div className="flex justify-center items-center mb-10">
           <div className="flex items-center gap-4">
-            <img
-              src="AllenCity Pharmacy Logo.png"
-              alt="Allen City Pharmacy"
-              className="h-11 w-11 object-contain"
-            />
-            <div>
-              <div className="text-lg font-bold text-green-800">Allen City Pharmacy</div>
-              <div className="text-xs text-gray-500 -mt-1">Secure Checkout</div>
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-700 text-white font-bold">
+              1
             </div>
+            <span className="text-green-800 font-medium">Cart</span>
+            <div className="w-10 h-[2px] bg-green-700"></div>
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-green-700 text-white font-bold">
+              2
+            </div>
+            <span className="text-green-800 font-medium">Checkout</span>
+            <div className="w-10 h-[2px] bg-green-700"></div>
+            <div className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-300 text-white font-bold">
+              3
+            </div>
+            <span className="text-gray-400 font-medium">Order Complete</span>
           </div>
-          <nav className="flex items-center gap-6 text-sm">
-            <a href="/" className="text-gray-600 hover:text-green-700 transition">
-              Home
-            </a>
-            <a href="/about" className="text-gray-600 hover:text-green-700 transition">
-              About
-            </a>
-            <a href="/shop" className="text-gray-600 hover:text-green-700 transition">
-              Shop
-            </a>
-            <a href="/contact" className="text-gray-600 hover:text-green-700 transition">
-              Contact
-            </a>
-          </nav>
         </div>
-      </header>
 
-      {/* Main */}
-      <main className="max-w-6xl mx-auto px-6 py-10 flex-grow">
-        <h1 className="text-3xl font-bold text-black mb-6 text-center">Checkout</h1>
+        <h1 className="text-3xl font-bold text-black mb-6 text-center">
+          Secure Checkout
+        </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Billing & Payment */}
-          <section className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-6 border border-green-100">
+          {/* Left Side - Form */}
+          <section className="lg:col-span-2 bg-white rounded-2xl shadow-lg p-8 border border-green-100">
             <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
               <h2 className="text-xl font-semibold text-green-800 border-b pb-2">
                 Billing Information
@@ -145,6 +129,7 @@ const CheckOutPage: React.FC = () => {
                 value={formData.email}
                 onChange={handleChange}
               />
+
               <input
                 id="address"
                 type="text"
@@ -195,17 +180,22 @@ const CheckOutPage: React.FC = () => {
                 onChange={handleChange}
               />
 
-              {/* Delivery */}
+              {/* Delivery Method */}
               <div>
-                <label className="block text-sm font-semibold mb-2">Delivery Method</label>
+                <label className="block text-sm font-semibold mb-2">
+                  Delivery Method
+                </label>
                 <select
                   id="deliveryMethod"
                   className="p-3 border rounded-md w-full"
                   value={formData.deliveryMethod}
                   onChange={handleChange}
                 >
-                  <option value="standard">Standard (2–4 days)</option>
-                  <option value="express">Express (1–2 days)</option>
+                  <option value="standard">
+                    Standard (2–4 days) - ₱120
+                  </option>
+                  <option value="express">Express (1–2 days) - ₱250</option>
+                  <option value="pickup">In-store Pickup (Free)</option>
                 </select>
               </div>
 
@@ -223,7 +213,7 @@ const CheckOutPage: React.FC = () => {
                 />
               </div>
 
-              {/* Payment */}
+              {/* Payment Details */}
               <h2 className="text-xl font-semibold text-green-800 border-b pb-2">
                 Payment Details
               </h2>
@@ -263,64 +253,82 @@ const CheckOutPage: React.FC = () => {
                   onChange={handleChange}
                 />
                 <div className="p-3 border rounded-md text-sm text-gray-600 flex items-center justify-center">
-                  Secure
+                  🔒 Secure
                 </div>
               </div>
 
-              {/* Payment Icons */}
+              {/* Accepted Payment Methods */}
               <div className="mt-3">
-                <p className="text-sm text-gray-600 mb-1">Accepted Payment Methods:</p>
+                <p className="text-sm text-gray-600 mb-1">
+                  Accepted Payment Methods:
+                </p>
                 <div className="flex gap-3 items-center">
                   <a href="https://www.visa.com" target="_blank">
-                    <img src="Visa.png" alt="Visa" className="h-5 hover:scale-110 transition-transform" />
+                    <img
+                      src="Visa.png"
+                      alt="Visa"
+                      className="h-5 hover:scale-110 transition-transform"
+                    />
                   </a>
                   <a href="https://www.mastercard.com" target="_blank">
-                    <img src="mastercard.png" alt="Mastercard" className="h-5 hover:scale-110 transition-transform" />
+                    <img
+                      src="mastercard.png"
+                      alt="Mastercard"
+                      className="h-5 hover:scale-110 transition-transform"
+                    />
                   </a>
                   <a href="https://www.americanexpress.com" target="_blank">
-                    <img src="amex.png" alt="AmEx" className="h-5 hover:scale-110 transition-transform" />
+                    <img
+                      src="amex.png"
+                      alt="AmEx"
+                      className="h-5 hover:scale-110 transition-transform"
+                    />
                   </a>
                   <a href="https://pay.google.com" target="_blank">
-                    <img src="Googleplayicon.png" alt="Google Pay" className="h-5 hover:scale-110 transition-transform" />
+                    <img
+                      src="Googleplayicon.png"
+                      alt="Google Pay"
+                      className="h-5 hover:scale-110 transition-transform"
+                    />
                   </a>
                   <a href="https://www.paypal.com" target="_blank">
-                    <img src="Paypal.png" alt="PayPal" className="h-5 hover:scale-110 transition-transform" />
+                    <img
+                      src="Paypal.png"
+                      alt="PayPal"
+                      className="h-5 hover:scale-110 transition-transform"
+                    />
                   </a>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 mt-4">
-                <input id="tos" type="checkbox" checked={formData.tos} onChange={handleChange} />
+              {/* Terms */}
+              <div className="flex items-center gap-3 mt-5">
+                <input
+                  id="tos"
+                  type="checkbox"
+                  checked={formData.tos}
+                  onChange={handleChange}
+                />
                 <label className="text-sm text-gray-600">
                   I agree to the{" "}
                   <a href="#" className="text-green-700 underline">
-                    Terms & Privacy
+                    Terms & Privacy Policy
                   </a>
                   .
                 </label>
               </div>
 
-              <div className="flex gap-3 mt-6 items-center justify-between">
-                <button
-                  type="button"
-                  onClick={handlePlaceOrder}
-                  className="bg-green-700 text-white px-4 py-3 rounded-md w-full hover:bg-green-800"
-                >
-                  Place Order
-                </button>
-                <a href="/cart" className="flex items-center justify-center">
-                  <img
-                    src="carticon.png"
-                    alt="Edit Cart"
-                    className="h-9 w-9 object-contain hover:scale-110 transition-transform duration-200"
-                    title="Edit Cart"
-                  />
-                </a>
-              </div>
+              <button
+                type="button"
+                onClick={handlePlaceOrder}
+                className="bg-green-700 text-white px-6 py-3 rounded-md w-full mt-6 hover:bg-green-800 transition"
+              >
+                Place Order
+              </button>
             </form>
           </section>
 
-          {/* Order Summary */}
+          {/* Right Side - Summary */}
           <aside className="bg-white rounded-2xl shadow-lg border border-green-100 p-6 h-fit">
             <h2 className="text-xl font-semibold text-green-800 mb-4 border-b pb-2">
               Order Summary
@@ -344,45 +352,43 @@ const CheckOutPage: React.FC = () => {
               )}
             </div>
 
-            <div className="flex justify-between text-sm text-gray-600">
-              <span>Subtotal</span>
-              <span>₱{checkoutData ? checkoutData.subtotal.toFixed(2) : "0.00"}</span>
-            </div>
-            <div className="flex justify-between text-sm text-gray-600 mt-1">
-              <span>Discount</span>
-              <span>₱0.00</span>
-            </div>
-            <div className="flex justify-between text-sm text-gray-600 mt-1">
-              <span>Shipping</span>
-              <span>₱{checkoutData ? checkoutData.shipping.toFixed(2) : "0.00"}</span>
-            </div>
-            <div className="flex justify-between text-sm text-gray-600 mt-1">
-              <span>Estimated Tax</span>
-              <span>₱{checkoutData ? checkoutData.tax.toFixed(2) : "0.00"}</span>
+            <div className="text-sm text-gray-700 space-y-1">
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>
+                  ₱{checkoutData ? checkoutData.subtotal.toFixed(2) : "0.00"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Shipping</span>
+                <span>
+                  ₱{checkoutData ? checkoutData.shipping.toFixed(2) : "0.00"}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Estimated Tax</span>
+                <span>
+                  ₱{checkoutData ? checkoutData.tax.toFixed(2) : "0.00"}
+                </span>
+              </div>
             </div>
 
             <div className="border-t my-4"></div>
 
             <div className="flex justify-between items-center">
-              <div>
-                <div className="text-sm text-gray-600">Total</div>
-                <div className="text-2xl font-bold text-green-800">
-                  ₱{checkoutData ? checkoutData.total.toFixed(2) : "0.00"}
-                </div>
+              <div className="text-sm text-gray-600">Total</div>
+              <div className="text-2xl font-bold text-green-800">
+                ₱{checkoutData ? checkoutData.total.toFixed(2) : "0.00"}
               </div>
             </div>
 
-            <div className="mt-4 text-xs text-gray-500">
-              Payments are processed securely. Card payments only accepted on this page.
+            <div className="mt-4 text-xs text-gray-500 border-t pt-3">
+              💳 Payments are processed securely.  
+              Accepted: Visa, Mastercard, AmEx, PayPal, GPay.
             </div>
           </aside>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="py-8 text-center text-sm text-gray-100 bg-green-800/90 mt-10 rounded-t-2xl">
-        &copy; 2025 Allen City Pharmacy. All Rights Reserved.
-      </footer>
     </div>
   );
 };

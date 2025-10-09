@@ -17,6 +17,7 @@ import ThankYouPage from "./pages/ThankYouPage";
 import ContactPage from "./pages/ContactPage";
 import ServicesPage from "./pages/ServicesPage";
 import StoreLocatorPage from "./pages/StoreLocatorPage";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   // CART STATE
@@ -110,6 +111,8 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/store-locator" element={<StoreLocatorPage />} />
+          <Route path="/about" element={<AboutPage />} /> {/* ✅ Added AboutPage Route */}
+
           {/* Catch-all → Redirect to Home */}
           <Route path="*" element={<HomePage onAdd={addToCart} />} />
         </Routes>
