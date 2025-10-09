@@ -1,136 +1,91 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Allen City Pharmacy - Relaxing Locator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Leaflet CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>
-    :root {
-      --soft-green: #c3edea;
-      --light-mint: #dffaf5;
-      --aqua: #a6e3e9;
-      --white: #ffffff;
-      --calm-blue: #d6f2f0;
-    }
+import React, { useEffect } from "react";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: linear-gradient(-45deg, var(--soft-green), var(--aqua), var(--light-mint), var(--calm-blue));
-      background-size: 400% 400%;
-      animation: calmGradient 20s ease infinite;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      transition: background 1s ease;
-    }
+const StoreLocatorPage: React.FC = () => {
+  useEffect(() => {
+    const allenTX: [number, number] = [33.1032, -96.6706];
+    const map = L.map("map").setView(allenTX, 13);
 
-    @keyframes calmGradient {
-      0% {
-        background-position: 0% 50%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.9);
-      padding: 8px 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      width: 100%;
-      max-width: 400px;
-      box-sizing: border-box;
-      border-radius: 6px 6px 0 0;
-      backdrop-filter: blur(6px);
-    }
-
-    header img {
-      height: 35px;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 1rem;
-      color: #0a4d40;
-      font-weight: 600;
-    }
-
-    #map {
-      width: 100%;
-      max-width: 400px;
-      aspect-ratio: 1 / 1; /* 👈 square shape */
-      border: 1px solid #ccc;
-      border-radius: 0 0 6px 6px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    }
-
-    .leaflet-popup-content {
-      font-size: 12px;
-    }
-
-    @media (max-width: 450px) {
-      header h1 {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <img src="AllenCity Pharmacy Logo.png" alt="Allen City Pharmacy Logo">
-    <h1>Allen City Pharmacy Locator</h1>
-  </header>
-
-  <div id="map"></div>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script>
-    // 📍 Allen, Texas coordinates
-    const allenTX = [33.1032, -96.6706];
-
-    // Initialize map centered on Allen, TX
-    const map = L.map('map').setView(allenTX, 13);
-
-    // Add free OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; OpenStreetMap contributors'
+    // Base map layer (OpenStreetMap)
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
-    // Add a marker for Allen, TX
-    const centerMarker = L.marker(allenTX).addTo(map)
-      .bindPopup("📍 Allen, TX").openPopup();
+    // Center marker
+    L.marker(allenTX)
+      .addTo(map)
+      .bindPopup("📍 Allen, TX")
+      .openPopup();
 
-    // Search for nearby Allen City Pharmacy
+    // Fetch pharmacy locations
+    const searchPharmacy = async (lat: number, lng: number) => {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=Allen+City+Pharmacy&limit=10&viewbox=${
+        lng - 0.05
+      },${lat + 0.05},${lng + 0.05},${lat - 0.05}&bounded=1`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.length === 0) {
+          console.log("No nearby Allen City Pharmacy found.");
+          return;
+        }
+
+        data.forEach((place: any) => {
+          const latNum = parseFloat(place.lat);
+          const lonNum = parseFloat(place.lon);
+
+          if (!isNaN(latNum) && !isNaN(lonNum)) {
+            const marker = L.marker([latNum, lonNum]).addTo(map);
+            marker.bindPopup(`<strong>${place.display_name}</strong>`);
+          }
+        });
+      } catch (err) {
+        console.error("Search error:", err);
+      }
+    };
+
     searchPharmacy(allenTX[0], allenTX[1]);
 
-    function searchPharmacy(lat, lng) {
-      const url = `https://nominatim.openstreetmap.org/search?format=json&q=Allen+City+Pharmacy&limit=10&viewbox=${lng-0.05},${lat+0.05},${lng+0.05},${lat-0.05}&bounded=1`;
+    return () => {
+      map.remove();
+    };
+  }, []);
 
-      fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          data.forEach(place => {
-            const marker = L.marker([place.lat, place.lon]).addTo(map);
-            marker.bindPopup(`<strong>${place.display_name}</strong>`);
-          });
+  return (
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-tr from-[#c3edea] via-[#a6e3e9] via-[#dffaf5] to-[#d6f2f0] bg-[length:400%_400%] animate-[calmGradient_20s_ease_infinite] transition duration-1000 font-[Segoe_UI]">
+      {/* Header */}
+      <header className="flex items-center gap-2 bg-white/90 p-3 shadow-md w-full max-w-sm box-border rounded-t-md backdrop-blur-md mt-4">
+        <img
+          src="/AllenCity Pharmacy Logo.png"
+          alt="Allen City Pharmacy Logo"
+          className="h-9"
+        />
+        <h1 className="text-base md:text-lg font-semibold text-[#0a4d40]">
+          Allen City Pharmacy Locator
+        </h1>
+      </header>
 
-          if (data.length === 0) {
-            console.log("No nearby Allen City Pharmacy found.");
+      {/* Map container */}
+      <div
+        id="map"
+        className="w-full max-w-sm aspect-square border border-gray-300 rounded-b-md shadow-md"
+      ></div>
+
+      {/* Tailwind custom animations */}
+      <style>
+        {`
+          @keyframes calmGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
           }
-        })
-        .catch(error => console.error("Search error:", error));
-    }
-  </script>
-</body>
-</html>
+        `}
+      </style>
+    </div>
+  );
+};
+
+export default StoreLocatorPage;

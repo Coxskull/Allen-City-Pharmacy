@@ -1,151 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Allen City Pharmacy | Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-    }
+import React, { useState } from "react";
 
-    body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(-45deg, #00796b, #26a69a, #ff7043, #fbc02d);
-      background-size: 400% 400%;
-      animation: gradient 10s ease infinite;
-    }
+const LoginPage: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Username:", username);
+    console.log("Password:", password);
+  };
 
-    .login-container {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      padding: 40px 35px;
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      animation: fadeIn 1s ease forwards;
-    }
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-[linear-gradient(-45deg,#00796b,#26a69a,#ff7043,#fbc02d)] bg-[length:400%_400%] animate-[gradient_10s_ease_infinite]">
+      <style>
+        {`
+          @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+      <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-2xl p-8 w-full max-w-md text-center animate-fadeIn">
+        <style>
+          {`
+            @keyframes fadeIn {
+              from { opacity: 0; transform: translateY(30px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fadeIn {
+              animation: fadeIn 1s ease forwards;
+            }
+          `}
+        </style>
 
-    .login-container img {
-      width: 120px;
-      margin-bottom: 15px;
-    }
+        <img
+          src="Logo1.png"
+          alt="Allen City Pharmacy Logo"
+          className="w-28 mx-auto mb-4"
+        />
+        <h2 className="text-2xl font-semibold text-[#004d40] mb-6">
+          Welcome Back
+        </h2>
 
-    .login-container h2 {
-      color: #004d40;
-      font-weight: 600;
-      margin-bottom: 25px;
-      font-size: 1.6rem;
-    }
+        <form onSubmit={handleSubmit} className="text-left">
+          <div className="mb-4">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-[#004d40]"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00796b] transition"
+            />
+          </div>
 
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
+          <div className="mb-4">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-[#004d40]"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00796b] transition"
+            />
+          </div>
 
-    label {
-      font-weight: 500;
-      color: #004d40;
-      font-size: 0.9rem;
-    }
+          <button
+            type="submit"
+            className="w-full bg-[#00796b] text-white py-3 rounded-lg font-medium hover:bg-[#004d40] transform hover:scale-[1.02] transition duration-300 mt-3"
+          >
+            Login
+          </button>
 
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-top: 8px;
-      transition: border-color 0.3s ease;
-    }
+          <a
+            href="#"
+            className="block text-center text-[#00796b] text-sm mt-4 hover:text-[#004d40] transition"
+          >
+            Forgot your password?
+          </a>
+        </form>
 
-    input:focus {
-      outline: none;
-      border-color: #00796b;
-    }
-
-    .btn-login {
-      width: 100%;
-      background-color: #00796b;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 10px;
-    }
-
-    .btn-login:hover {
-      background-color: #004d40;
-      transform: scale(1.02);
-    }
-
-    .forgot-password {
-      margin-top: 15px;
-      display: block;
-      color: #00796b;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.3s ease;
-    }
-
-    .forgot-password:hover {
-      color: #004d40;
-    }
-
-    .footer-text {
-      margin-top: 25px;
-      font-size: 0.8rem;
-      color: #555;
-    }
-
-    @media (max-width: 480px) {
-      .login-container {
-        padding: 30px 20px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="login-container">
-    <img src="Logo1.png" alt="Allen City Pharmacy Logo">
-    <h2>Welcome Back</h2>
-    <form>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        <p className="text-xs text-gray-600 mt-6">
+          © 2025 Allen City Pharmacy. All rights reserved.
+        </p>
       </div>
+    </div>
+  );
+};
 
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      </div>
-
-      <button type="submit" class="btn-login">Login</button>
-      <a href="#" class="forgot-password">Forgot your password?</a>
-    </form>
-    <p class="footer-text">© 2025 Allen City Pharmacy. All rights reserved.</p>
-  </div>
-</body>
-</html>
+export default LoginPage;
