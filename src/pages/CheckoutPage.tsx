@@ -46,12 +46,17 @@ const CheckOutPage: React.FC = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { id, value, type, checked } = e.target;
+    const { id, value, type } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [id]: type === "checkbox" ? checked : value,
+      [id]:
+        type === "checkbox"
+          ? (e.target as HTMLInputElement).checked
+          : value,
     }));
   };
+
 
   // Place order
   const handlePlaceOrder = () => {
