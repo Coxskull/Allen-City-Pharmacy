@@ -1,111 +1,73 @@
-💊 Allen City Pharmacy Frontend
+# React + TypeScript + Vite
 
-This project is the frontend of the Allen City Pharmacy Management System, built with React + Vite.
-It provides a modern, responsive user interface for customers and administrators to manage pharmacy operations, including product listings, orders, and user authentication.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-🚀 Features
+Currently, two official plugins are available:
 
-⚡ Vite-powered React app – lightning-fast development and build
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-🧩 Modular component structure for easy maintenance
+## React Compiler
 
-🎨 Tailwind CSS styling for responsive UI
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-🔐 Authentication and User Dashboard
+## Expanding the ESLint configuration
 
-📦 Integration-ready API layer for backend (PHP/MySQL)
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-🧠 Scalable architecture suitable for future modules (inventory, payments, etc.)
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-🛠️ Tech Stack
-Category	Technology
-Frontend Framework	React
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-Build Tool	Vite
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-Styling	Tailwind CSS
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-Package Manager	npm
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-State Management	React Hooks / Context API
-Backend (connected via API)	PHP + MySQL
-⚙️ Project Setup
-1️⃣ Clone the Repository
-git clone https://github.com/yourusername/allen-city-pharmacy-frontend.git
-cd allen-city-pharmacy-frontend
-
-2️⃣ Install Dependencies
-npm install
-
-
-If you encounter an error like:
-
-Cannot find module '@vitejs/plugin-react'
-
-
-Run this command:
-
-npm install @vitejs/plugin-react --save-dev
-
-3️⃣ Start the Development Server
-npm run dev
-
-
-Then open your browser and go to:
-
-http://localhost:5173
-
-🧩 Project Structure
-allen-city-pharmacy-frontend/
-│
-├── public/                     # Static files
-├── src/
-│   ├── assets/                 # Images, icons, etc.
-│   ├── components/             # Reusable React components
-│   ├── pages/                  # Page components (Home, Login, Dashboard)
-│   ├── hooks/                  # Custom React hooks
-│   ├── context/                # Global app context (user, theme, etc.)
-│   ├── services/               # API integration files
-│   ├── App.jsx                 # Root React component
-│   └── main.jsx                # Application entry point
-│
-├── vite.config.js              # Vite configuration
-├── tailwind.config.js          # Tailwind configuration
-├── package.json                # Dependencies and scripts
-└── README.md                   # Project documentation
-
-🧰 Available Scripts
-Command	Description
-npm run dev	Start the development server
-npm run build	Create a production build
-npm run preview	Preview the production build locally
-npm install	Install all dependencies
-🔌 Backend Integration
-
-This frontend is designed to connect to the Allen City Pharmacy Backend (PHP + MySQL) API.
-Make sure your .env file includes the correct backend API URL, for example:
-
-VITE_API_BASE_URL=http://localhost/allen-city-pharmacy-backend/api
-
-🧾 Troubleshooting
-Common Issues
-❌ Cannot find module '@vitejs/plugin-react'
-
-Run:
-
-npm install @vitejs/plugin-react --save-dev
-
-⚠️ “CJS build of Vite’s Node API is deprecated”
-
-You can safely ignore this warning — it just means that Vite is transitioning to pure ESM.
-(You may upgrade to the latest version of Node.js and Vite to remove the warning.)
-
-👨‍💻 Contributors
-
-Erwin De Jesus – Lead Developer
-
-Project Team – Allen City Pharmacy IT Unit
-
-📜 License
-
-This project is licensed under the MIT License — free for commercial and personal use.
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
