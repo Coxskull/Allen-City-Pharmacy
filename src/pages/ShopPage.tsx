@@ -13,7 +13,9 @@ interface Product {
   description: string;
   stock: "In stock" | "Low stock" | "Out of stock";
 }
-
+interface ShopPageProps {
+  onAdd: (product: any) => void;
+}
 const products: Product[] = [
   {
     id: 1,
@@ -108,7 +110,7 @@ const products: Product[] = [
   },
 ];
 
-export default function ShopPage() {
+export default function ShopPage({ onAdd }: ShopPageProps) {
   const [selected, setSelected] = useState<Product | null>(null);
   const [cart, setCart] = useState<Product[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
@@ -254,13 +256,12 @@ export default function ShopPage() {
                   )}
                   <div className="flex items-center mt-2">
                     <div
-                      className={`text-xs font-semibold px-2 py-1 rounded-md ${
-                        p.stock === "Low stock"
+                      className={`text-xs font-semibold px-2 py-1 rounded-md ${p.stock === "Low stock"
                           ? "text-[#e67e22] bg-orange-50"
                           : p.stock === "Out of stock"
-                          ? "text-red-600 bg-red-50"
-                          : "text-[#006d53] bg-green-50"
-                      }`}
+                            ? "text-red-600 bg-red-50"
+                            : "text-[#006d53] bg-green-50"
+                        }`}
                     >
                       {p.stock}
                     </div>

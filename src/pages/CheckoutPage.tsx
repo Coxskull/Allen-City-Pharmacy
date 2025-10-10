@@ -13,8 +13,14 @@ interface CheckoutData {
   shipping: number;
   total: number;
 }
+interface CheckoutPageProps {
+  cart: CartItem[];
+  setQty: (id: number, qty: number) => void;
+  removeFromCart: (id: number) => void;
+  clearCart: () => void;
+}
 
-const CheckOutPage: React.FC = () => {
+const CheckOutPage: React.FC<CheckoutPageProps> = () => {
   const [checkoutData, setCheckoutData] = useState<CheckoutData | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -383,7 +389,7 @@ const CheckOutPage: React.FC = () => {
             </div>
 
             <div className="mt-4 text-xs text-gray-500 border-t pt-3">
-              💳 Payments are processed securely.  
+              💳 Payments are processed securely.
               Accepted: Visa, Mastercard, AmEx, PayPal, GPay.
             </div>
           </aside>
