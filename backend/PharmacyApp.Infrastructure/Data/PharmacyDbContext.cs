@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PharmacyApp.Core.Domain.Entities;  // ✅ important!
+using PharmacyApp.Core.Entities;
 
 namespace PharmacyApp.Infrastructure.Data
 {
@@ -10,14 +10,16 @@ namespace PharmacyApp.Infrastructure.Data
         {
         }
 
-        public DbSet<Product> Products { get; set; }  // ✅ Entity from Core
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            // Optional: configure Product entity if needed
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
+            modelBuilder.Entity<Order>().HasKey(o => o.Id);
+            modelBuilder.Entity<User>().HasKey(u => u.Id);
         }
     }
 }

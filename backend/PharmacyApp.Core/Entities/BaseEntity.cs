@@ -1,6 +1,4 @@
-using System;
-
-namespace PharmacyApp.Core.Domain.Entities
+namespace PharmacyApp.Core.Entities
 {
     public abstract class BaseEntity
     {

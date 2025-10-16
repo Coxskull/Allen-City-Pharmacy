@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using PharmacyApp.Core.Application.DTOs;
-using PharmacyApp.Core.Application.Interfaces;
+using PharmacyApp.Core.Entities;
+using PharmacyApp.Core.Interfaces;
 
 namespace PharmacyApp.API.Controllers
 {
@@ -9,48 +9,43 @@ namespace PharmacyApp.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _service;
-        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(IProductService service, ILogger<ProductsController> logger)
-        {
-            _service = service;
-            _logger = logger;
-        }
+            public ProductsController(IProductService service)
+            {
+                _service = service;
+            }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
-        {
-            var result = await _service.GetAllAsync();
-            return Ok(result);
-        }
+        public async Task<IActionResult> GetAll() => Ok(await _service.GetAllAsync());
 
-        [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
             var product = await _service.GetByIdAsync(id);
-            return product == null ? NotFound() : Ok(product);
+            if (product == null) return NotFound();
+            return Ok(product);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] ProductDto dto)
+        public async Task<IActionResult> Add(Product product)
         {
-            var created = await _service.CreateAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            var created = await _service.CreateAsync(product);
+            return CreatedAtAction(nameof(Get), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] ProductDto dto)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, Product product)
         {
-            if (id != dto.Id && dto.Id != 0) dto.Id = id;
-            var updated = await _service.UpdateAsync(dto);
-            return Ok(updated);
+            if (id != product.Id) return BadRequest();
+            await _service.UpdateAsync(product);
+            return NoContent();
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var deleted = await _service.DeleteAsync(id);
-            return deleted ? NoContent() : NotFound();
+            await _service.DeleteAsync(id);
+            return NoContent();
         }
     }
 }
