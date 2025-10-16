@@ -1,166 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Allen City Pharmacy | Sign Up</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', sans-serif;
-    }
+import React, { useState } from "react";
+import "./SignUpPage.css"; // External CSS file
 
-    body {
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(-45deg, #00796b, #26a69a, #ff7043, #fbc02d);
-      background-size: 400% 400%;
-      animation: gradient 10s ease infinite;
-    }
+const SignUpPage: React.FC = () => {
+  const [formData, setFormData] = useState({
+    fullname: "",
+    email: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-    .signup-container {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-      padding: 40px 35px;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
-      backdrop-filter: blur(10px);
-      animation: fadeIn 1s ease forwards;
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    // TODO: Add signup logic here (API call, validation, etc.)
+  };
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  return (
+    <div className="signup-container">
+      <img src="/Logo1.png" alt="Allen City Pharmacy Logo" />
+      <h2>Create Your Account</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="fullname">Full Name</label>
+          <input
+            type="text"
+            id="fullname"
+            name="fullname"
+            placeholder="Enter your full name"
+            value={formData.fullname}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    .signup-container img {
-      width: 120px;
-      margin-bottom: 15px;
-    }
+        <div className="form-group">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    .signup-container h2 {
-      color: #004d40;
-      font-weight: 600;
-      margin-bottom: 25px;
-      font-size: 1.6rem;
-    }
+        <div className="form-group">
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Choose a username"
+            value={formData.username}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    .form-group {
-      margin-bottom: 18px;
-      text-align: left;
-    }
+        <div className="form-group">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    label {
-      font-weight: 500;
-      color: #004d40;
-      font-size: 0.9rem;
-    }
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            placeholder="Re-enter your password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+        </div>
 
-    input[type="text"], input[type="email"], input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-top: 8px;
-      transition: border-color 0.3s ease;
-    }
+        <button type="submit" className="btn-signup">
+          Create Account
+        </button>
+        <a href="/login" className="login-link">
+          Already have an account? Login
+        </a>
+      </form>
+      <p className="footer-text">
+        © 2025 Allen City Pharmacy. All rights reserved.
+      </p>
+    </div>
+  );
+};
 
-    input:focus {
-      outline: none;
-      border-color: #00796b;
-    }
-
-    .btn-signup {
-      width: 100%;
-      background-color: #00796b;
-      color: white;
-      border: none;
-      padding: 12px;
-      border-radius: 8px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-top: 10px;
-    }
-
-    .btn-signup:hover {
-      background-color: #004d40;
-      transform: scale(1.02);
-    }
-
-    .login-link {
-      margin-top: 15px;
-      display: block;
-      color: #00796b;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.3s ease;
-    }
-
-    .login-link:hover {
-      color: #004d40;
-    }
-
-    .footer-text {
-      margin-top: 25px;
-      font-size: 0.8rem;
-      color: #555;
-    }
-
-    @media (max-width: 480px) {
-      .signup-container {
-        padding: 30px 20px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="signup-container">
-    <img src="Logo1.png" alt="Allen City Pharmacy Logo">
-    <h2>Create Your Account</h2>
-    <form>
-      <div class="form-group">
-        <label for="fullname">Full Name</label>
-        <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
-      </div>
-
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-      </div>
-
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Choose a username" required>
-      </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter your password" required>
-      </div>
-
-      <div class="form-group">
-        <label for="confirm-password">Confirm Password</label>
-        <input type="password" id="confirm-password" name="confirm-password" placeholder="Re-enter your password" required>
-      </div>
-
-      <button type="submit" class="btn-signup">Create Account</button>
-      <a href="allen_city_pharmacy_login.html" class="login-link">Already have an account? Login</a>
-    </form>
-    <p class="footer-text">© 2025 Allen City Pharmacy. All rights reserved.</p>
-  </div>
-</body>
-</html>
+export default SignUpPage;

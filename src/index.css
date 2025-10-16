@@ -92,3 +92,136 @@ button:focus-visible {
 .group:hover {
   animation: cardGlow 1.5s ease-in-out infinite alternate;
 }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(-45deg, #00796b, #26a69a, #ff7043, #fbc02d);
+  background-size: 400% 400%;
+  animation: gradient 10s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.signup-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  padding: 40px 35px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.signup-container img {
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+.signup-container h2 {
+  color: #004d40;
+  font-weight: 600;
+  margin-bottom: 25px;
+  font-size: 1.6rem;
+}
+
+.form-group {
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+label {
+  font-weight: 500;
+  color: #004d40;
+  font-size: 0.9rem;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 8px;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #00796b;
+}
+
+.btn-signup {
+  width: 100%;
+  background-color: #00796b;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+}
+
+.btn-signup:hover {
+  background-color: #004d40;
+  transform: scale(1.02);
+}
+
+.login-link {
+  margin-top: 15px;
+  display: block;
+  color: #00796b;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #004d40;
+}
+
+.footer-text {
+  margin-top: 25px;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+@media (max-width: 480px) {
+  .signup-container {
+    padding: 30px 20px;
+  }
+}
