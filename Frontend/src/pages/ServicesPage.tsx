@@ -1,188 +1,204 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const ServicesPage: React.FC = () => {
   const services = [
     {
       title: "Prescription Refills",
-      desc: "Easily refill prescriptions online or in-store. Manage your medications and set up automatic refills for convenience.",
+      desc: "Easily manage and refill your prescriptions online or in-store. Set up automatic refills and get notified when your medication is ready.",
       icon: "💊",
     },
     {
       title: "Vaccinations & Immunizations",
-      desc: "Protect yourself and your family with vaccines for flu, COVID-19, shingles, and more — no appointment required.",
+      desc: "We offer vaccines for flu, COVID-19, pneumonia, HPV, and more — no appointment needed. Walk in anytime to protect yourself and your family.",
       icon: "💉",
     },
     {
       title: "Medication Therapy Management",
-      desc: "Our licensed pharmacists can review your medications, check for interactions, and help you get the best results.",
+      desc: "Get personalized consultations with our pharmacists to optimize your prescriptions and ensure safe, effective treatment outcomes.",
       icon: "📋",
     },
     {
       title: "Health Screenings",
-      desc: "Get health checks like blood pressure, cholesterol, and glucose screenings — quick and confidential.",
+      desc: "Affordable screenings for blood pressure, cholesterol, glucose, and BMI — with instant results and health recommendations.",
       icon: "🩺",
     },
     {
       title: "Home Delivery",
-      desc: "We offer free local delivery for prescriptions and over-the-counter items. Stay healthy from home.",
+      desc: "Stay home and stay healthy — we offer free local delivery for prescriptions and essential health products.",
       icon: "🚚",
     },
     {
       title: "Consult a Pharmacist",
-      desc: "Ask our friendly pharmacists about any medication, side effects, or health concern — in person or by phone.",
+      desc: "Speak directly with our licensed pharmacists about dosage, side effects, or any medication concerns — in person or virtually.",
       icon: "👩‍⚕️",
     },
   ];
 
-  return (
-    <div className="min-h-screen flex flex-col bg-[linear-gradient(135deg,#22c58f_0%,#af9f11_100%)] text-gray-800">
-      {/* Navbar */}
-      <header className="bg-white/90 shadow-md sticky top-0 z-50">
-        <nav className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-          <Link
-            to="/"
-            className="text-2xl font-bold text-green-700 hover:text-green-800"
-          >
-            Allen City Pharmacy
-          </Link>
-          <ul className="hidden md:flex gap-6 text-lg">
-            <li>
-              <Link to="/shop" className="hover:text-green-700">
-                Shop
-              </Link>
-            </li>
-            <li>
-              <Link to="/services" className="text-green-700 font-semibold border-b-2 border-green-700">
-                Services
-              </Link>
-            </li>
-            <li>
-              <Link to="/about" className="hover:text-green-700">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link to="/contact" className="hover:text-green-700">
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </header>
+  const testimonials = [
+    {
+      name: "Maria Lopez",
+      feedback:
+        "The staff here are always kind and professional. I love how quick and easy the refill process is!",
+      rating: "⭐⭐⭐⭐⭐",
+    },
+    {
+      name: "James Anderson",
+      feedback:
+        "Their vaccination service was super convenient — walked in during lunch and was done in 10 minutes!",
+      rating: "⭐⭐⭐⭐⭐",
+    },
+    {
+      name: "Elaine Cruz",
+      feedback:
+        "Allen City Pharmacy really cares about their customers. I got a free consultation that helped me understand my new meds better.",
+      rating: "⭐⭐⭐⭐⭐",
+    },
+  ];
 
+  const trustBadges = [
+    { icon: "🏥", text: "DOH Licensed Pharmacy" },
+    { icon: "👩‍⚕️", text: "Certified Pharmacists" },
+    { icon: "🌿", text: "Trusted Health Partner" },
+    { icon: "⏱️", text: "Fast & Reliable Service" },
+  ];
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gradient-to-tr from-emerald-400 via-green-400 to-lime-300 text-gray-800 font-[Segoe_UI]">
       {/* Hero Banner */}
-      <section className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-12 px-6 gap-8">
-        <div className="flex-1 space-y-4">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white">
-            Pharmacy Services You Can Trust
-          </h1>
-          <p className="text-white/90 text-lg">
-            At Allen City Pharmacy, we offer professional health services to help
-            you live better — from quick vaccinations to in-depth consultations.
-          </p>
-          <Link
-            to="/contact"
-            className="inline-block bg-green-700 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-800 transition"
-          >
-            Book a Service
-          </Link>
-        </div>
-        <div className="flex-1">
-          <img
-            src="/images/services-banner.jpg"
-            alt="Pharmacy Services"
-            className="rounded-2xl shadow-lg w-full"
-          />
+      <section
+  className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-20 px-6 gap-10 overflow-hidden rounded-2xl"
+>
+  {/* Pharmacist Background Image */}
+  <div
+    className="absolute inset-0 bg-[url('https://www.brunet.ca/globalassets/sante/conseils-sante/role-du-pharmacien/role-du-pharmacien-big.jpg')] bg-cover bg-center opacity-20"
+    aria-hidden="true"
+  ></div>
+
+  {/* Overlay for better contrast */}
+  <div className="absolute inset-0 bg-emerald-900/30 mix-blend-multiply"></div>
+
+  {/* Content */}
+  <motion.div
+    className="relative flex-1 space-y-5"
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+  >
+    <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">
+      Compassion at every step. Care that truly puts you first.
+    </h1>
+    <p className="text-white/90 text-lg leading-relaxed">
+      At Allen City Pharmacy, we believe great healthcare goes beyond medicine. With expert care and personal attention, we're here to help you live well every day.
+    </p>
+    <Link
+      to="/contact"
+      className="inline-block bg-white text-green-800 px-8 py-3 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+    >
+      Talk to a Pharmacist
+    </Link>
+  </motion.div>
+
+  <motion.div
+    className="relative flex-1"
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8 }}
+  >
+    <img
+      src="src/assets/BGBG.jpg"
+      alt="Pharmacy services illustration"
+      className="rounded-2xl shadow-2xl w-full"
+    />
+  </motion.div>
+</section>
+
+      {/* Services Section */}
+      <section className="relative py-20 overflow-hidden">
+  {/* 🌈 Animated Gradient Background */}
+  <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-green-300 to-lime-300 bg-[length:400%_400%] animate-gradient" />
+
+  {/* Optional translucent overlay for better text contrast */}
+  <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
+
+  <div className="relative max-w-7xl mx-auto px-6 text-center">
+    <h2 className="text-4xl font-bold text-green-700 mb-12">
+      Comprehensive Pharmacy Services
+    </h2>
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      {services.map((s) => (
+        <motion.div
+          key={s.title}
+          className="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow hover:shadow-xl transition text-left"
+          whileHover={{ scale: 1.03 }}
+        >
+          <div className="text-5xl mb-3">{s.icon}</div>
+          <h3 className="text-2xl font-semibold mb-2 text-green-700">
+            {s.title}
+          </h3>
+          <p className="text-gray-600 leading-relaxed">{s.desc}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
+      {/* Trust Badges */}
+      <section className="bg-green-100 py-12">
+        <div className="max-w-6xl mx-auto px-6 grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {trustBadges.map((badge) => (
+            <motion.div
+              key={badge.text}
+              className="p-6 bg-white rounded-xl shadow-md hover:shadow-lg transition"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="text-5xl mb-3">{badge.icon}</div>
+              <p className="font-semibold text-green-800">{badge.text}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* Services Section */}
-      <section className="bg-white py-12">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-green-700 mb-8">
-            Our Comprehensive Health Services
+      {/* Testimonials */}
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h2 className="text-4xl font-bold text-green-700 mb-10">
+            What Our Customers Say
           </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((s) => (
-              <div
-                key={s.title}
-                className="bg-green-50 p-6 rounded-2xl shadow hover:shadow-lg transition text-left"
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((t) => (
+              <motion.div
+                key={t.name}
+                className="bg-green-50 p-8 rounded-3xl shadow hover:shadow-lg transition"
+                whileHover={{ scale: 1.03 }}
               >
-                <div className="text-4xl mb-3">{s.icon}</div>
-                <h3 className="text-xl font-semibold mb-2 text-green-700">
-                  {s.title}
-                </h3>
-                <p className="text-gray-600">{s.desc}</p>
-              </div>
+                <p className="text-gray-700 italic mb-3 leading-relaxed">
+                  “{t.feedback}”
+                </p>
+                <p className="font-bold text-green-800">{t.name}</p>
+                <p className="text-yellow-500 mt-1">{t.rating}</p>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Health Banner */}
-      <section className="bg-green-700 py-12 text-center text-white">
-        <h2 className="text-3xl font-bold mb-4">Your Health, Our Mission</h2>
-        <p className="text-white/90 mb-6 max-w-3xl mx-auto">
-          From everyday care to long-term wellness, Allen City Pharmacy is here
-          to support your journey with trusted services and expert advice.
+      {/* Final CTA */}
+      <section className="bg-green-700 py-20 text-center text-white">
+        <h2 className="text-4xl font-bold mb-4">
+          Your Trusted Pharmacy in Allen City
+        </h2>
+        <p className="text-white/90 mb-6 max-w-3xl mx-auto text-lg">
+          From prescription refills to vaccinations, we strive to deliver seamless, patient-centered care that makes managing your health simple and stress-free.
         </p>
         <Link
           to="/shop"
-          className="bg-white text-green-800 px-6 py-3 rounded-full font-semibold hover:bg-yellow-300 transition"
+          className="bg-white text-green-800 px-8 py-3 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
         >
-          Explore Wellness Products
+          Browse Health Products
         </Link>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-green-800 text-white py-8 mt-auto">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
-          <div>
-            <h4 className="font-semibold mb-2">Quick Links</h4>
-            <ul className="space-y-1">
-              <li>
-                <Link to="/shop" className="hover:underline">
-                  Shop
-                </Link>
-              </li>
-              <li>
-                <Link to="/services" className="hover:underline">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="hover:underline">
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="hover:underline">
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-2">Contact Us</h4>
-            <p>123 Main Street, Allen City</p>
-            <p>Email: info@allencitypharmacy.com</p>
-            <p>Phone: (555) 123-4567</p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-2">Stay Connected</h4>
-            <p>Follow us for health tips & pharmacy updates.</p>
-            <div className="flex gap-4 mt-3 text-2xl">
-              <a href="#" className="hover:text-yellow-300">📘</a>
-              <a href="#" className="hover:text-yellow-300">📸</a>
-              <a href="#" className="hover:text-yellow-300">🐦</a>
-            </div>
-          </div>
-        </div>
-        <div className="text-center mt-6 text-sm text-white/80">
-          © {new Date().getFullYear()} Allen City Pharmacy. All rights reserved.
-        </div>
-      </footer>
     </div>
   );
 };
