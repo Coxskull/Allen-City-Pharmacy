@@ -7,6 +7,7 @@ import PromoBar from "./components/PromoBar";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
 import ChatBot from "./components/ChatBot";
+import BackendStatus from "./components/BackendStatus"; // ✅ Keep this import
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -88,6 +89,9 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      {/* ✅ Added backend status indicator */}
+      <BackendStatus />
+
       <Navbar cartCount={cartCount} />
       <PromoBar visible={promoVisible} onClose={() => setPromoVisible(false)} />
 
@@ -111,9 +115,7 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/store-locator" element={<StoreLocatorPage />} />
-          <Route path="/about" element={<AboutPage />} /> {/* ✅ Added AboutPage Route */}
-
-          {/* Catch-all → Redirect to Home */}
+          <Route path="/about" element={<AboutPage />} />
           <Route path="*" element={<HomePage onAdd={addToCart} />} />
         </Routes>
       </main>

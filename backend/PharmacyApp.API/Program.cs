@@ -1,42 +1,44 @@
-using PharmacyApp.Core.Interfaces;
-using PharmacyApp.Core.Services;
-using PharmacyApp.Infrastructure.Data;
-using PharmacyApp.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Add services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Configure Database (InMemory for now)
 builder.Services.AddDbContext<PharmacyDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-// Dependency Injection setup
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 
+// ✅ MOVE THIS ABOVE app = builder.Build()
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins("https://urban-space-goggles-g4v7qv6g79x7fw49p-5173.app.github.dev")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
 
-// Configure middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.Urls.Add("http://localhost:5272");
-app.Urls.Add("https://localhost:7114");
+// ✅ Enable CORS before controllers
+app.UseCors("AllowFrontend");
 
-
-app.UseHttpsRedirection();
+app.UseAuthorization();
 app.MapControllers();
-
 
 app.Run();

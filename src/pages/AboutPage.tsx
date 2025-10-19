@@ -27,7 +27,7 @@ const AboutPage: React.FC = () => {
     setCanvasSize();
 
     // Animated floating pills
-    const pills: createjs.Shape[] = [];
+    const pills: any[] = [];
     const colors = ["#ffffff", "#ffcc80", "#c8e6c9", "#b2dfdb"];
 
     for (let i = 0; i < 30; i++) {

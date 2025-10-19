@@ -8,15 +8,15 @@
       "sslPort": 44393
     }
   },
-  "profiles": {
-    "http": {
-      "commandName": "Project",
-      "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
-      "applicationUrl": "http://localhost:5272",
-      "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+"profiles": {
+  "PharmacyApp.API": {
+    "commandName": "Project",
+    "dotnetRunMessages": true,
+    "launchBrowser": true,
+    "launchUrl": "swagger",
+    "applicationUrl": "http://localhost:5272",
+    "environmentVariables": {
+      "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "https": {

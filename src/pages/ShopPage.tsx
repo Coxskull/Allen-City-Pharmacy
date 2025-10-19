@@ -428,3 +428,5 @@ export default function ShopPage({ onAdd }: ShopPageProps) {
     </div>
   );
 }
+
+// Duplicate import and component removed.
