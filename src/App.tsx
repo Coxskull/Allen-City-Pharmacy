@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 
 // Components
@@ -7,7 +7,7 @@ import PromoBar from "./components/PromoBar";
 import Footer from "./components/Footer";
 import CartPanel from "./components/CartPanel";
 import ChatBot from "./components/ChatBot";
-import BackendStatus from "./components/BackendStatus"; // ✅ Keep this import
+import BackendStatus from "./components/BackendStatus";
 
 // Pages
 import HomePage from "./pages/HomePage";
@@ -21,14 +21,20 @@ import StoreLocatorPage from "./pages/StoreLocatorPage";
 import AboutPage from "./pages/AboutPage";
 
 function App() {
-  // CART STATE
+  // 🛒 CART STATE
   const [cart, setCart] = useState<any[]>([]);
   const [cartCount, setCartCount] = useState(0);
 
-  // Promo bar
+  // 🎁 PROMO BAR
   const [promoVisible, setPromoVisible] = useState(true);
 
-  // Load cart from localStorage on mount
+  // 🧺 CART PANEL VISIBILITY
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  // 🪟 Reference to detect outside clicks
+  const cartRef = useRef<HTMLDivElement>(null);
+
+  // 🔁 Load cart from localStorage on mount
   useEffect(() => {
     const storedCart = localStorage.getItem("cart");
     if (storedCart) {
@@ -38,21 +44,21 @@ function App() {
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // 💾 Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCount(cart);
   }, [cart]);
 
+  // 🧠 Update total item count
   const updateCartCount = (cartItems: any[]) => {
     const total = cartItems.reduce((sum, item) => sum + item.qty, 0);
     setCartCount(total);
   };
 
-  // Add to cart
+  // ➕ Add item to cart
   const addToCart = (product: any) => {
     const existing = cart.find((item) => item.id === product.id);
-
     if (existing) {
       setCart((prev) =>
         prev.map((item) =>
@@ -64,35 +70,59 @@ function App() {
     }
   };
 
-  // Update quantity
+  // 🔢 Update quantity
   const setQty = (productId: number, qty: number) => {
     if (qty <= 0) {
       removeFromCart(productId);
       return;
     }
     setCart((prev) =>
-      prev.map((item) =>
-        item.id === productId ? { ...item, qty } : item
-      )
+      prev.map((item) => (item.id === productId ? { ...item, qty } : item))
     );
   };
 
-  // Remove from cart
+  // ❌ Remove from cart
   const removeFromCart = (productId: number) => {
     setCart((prev) => prev.filter((item) => item.id !== productId));
   };
 
-  // Clear cart
+  // 🧹 Clear entire cart
   const clearCart = () => {
     setCart([]);
   };
 
+  // 👇 Auto-close cart panel when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        cartRef.current &&
+        !cartRef.current.contains(event.target as Node) &&
+        !(event.target as HTMLElement).closest(".cart-toggle-btn") // prevent closing when clicking the icon itself
+      ) {
+        setIsCartOpen(false);
+      }
+    };
+
+    if (isCartOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isCartOpen]);
+
   return (
     <div className="min-h-screen flex flex-col">
-      {/* ✅ Added backend status indicator */}
+      {/* ✅ Backend status indicator */}
       <BackendStatus />
 
-      <Navbar cartCount={cartCount} />
+      {/* ✅ Navbar now toggles cart */}
+      <Navbar
+        cartCount={cartCount}
+        onCartClick={() => setIsCartOpen((prev) => !prev)}
+      />
+
       <PromoBar visible={promoVisible} onClose={() => setPromoVisible(false)} />
 
       <main className="flex-1">
@@ -122,15 +152,20 @@ function App() {
 
       <Footer />
 
-      {/* Floating Cart Panel (Desktop only) */}
-      <div className="fixed right-6 top-24 z-50 hidden md:block">
-        <CartPanel
-          cart={cart}
-          setQty={setQty}
-          removeFromCart={removeFromCart}
-          clearCart={clearCart}
-        />
-      </div>
+      {/* 🛍️ Cart panel only shows when clicked */}
+      {isCartOpen && (
+        <div
+          ref={cartRef}
+          className="fixed right-6 top-24 z-50 hidden md:block animate-slide-in"
+        >
+          <CartPanel
+            cart={cart}
+            setQty={setQty}
+            removeFromCart={removeFromCart}
+            clearCart={clearCart}
+          />
+        </div>
+      )}
 
       <ChatBot />
     </div>

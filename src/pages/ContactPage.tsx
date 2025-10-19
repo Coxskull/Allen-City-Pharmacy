@@ -1,12 +1,5 @@
 import React, { useEffect, useRef } from "react";
-
-// Declare CreateJS globally
-declare global {
-  interface Window {
-    createjs: any;
-  }
-}
-declare const createjs: any;
+import * as createjs from "@createjs/easeljs"; // ✅ Proper CreateJS import
 
 const ContactPage: React.FC = () => {
   const bannerCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -31,8 +24,8 @@ const ContactPage: React.FC = () => {
     setCanvasSize();
     window.addEventListener("resize", setCanvasSize);
 
-    // Animated pills
-    const pills: any[] = [];
+    // 🎨 Animated pills setup
+    const pills: createjs.Shape[] = [];
     const colors = ["#ffffff", "#ffcc80", "#c8e6c9", "#b2dfdb"];
     const random = (min: number, max: number) => min + Math.random() * (max - min);
 
@@ -48,12 +41,13 @@ const ContactPage: React.FC = () => {
       pill.regY = (h * dpr) / 2;
       pill.x = random(0, canvas.width);
       pill.y = random(0, canvas.height);
-      pill.speed = 0.5 * dpr + Math.random() * (1.5 * dpr);
-      pill.rotationSpeed = -0.05 + Math.random() * 0.1;
+      (pill as any).speed = 0.5 * dpr + Math.random() * (1.5 * dpr);
+      (pill as any).rotationSpeed = -0.05 + Math.random() * 0.1;
       pills.push(pill);
       stage.addChild(pill);
     }
 
+    // 🧠 Banner text
     const bannerText = new createjs.Text(
       "Contact Allen City Pharmacy",
       `bold ${32 * dpr}px Segoe UI`,
@@ -70,23 +64,25 @@ const ContactPage: React.FC = () => {
     );
     stage.addChild(bannerText);
 
+    // 🕒 Animation loop
     createjs.Ticker.framerate = 60;
-    createjs.Ticker.addEventListener("tick", () => {
+    const tick = () => {
       pills.forEach((p) => {
-        p.y -= p.speed;
-        p.rotation += p.rotationSpeed;
-        if (p.y < -50 * dpr) {
-          p.y = canvas.height + 40 * dpr;
-          p.x = random(0, canvas.width);
+        (p as any).y -= (p as any).speed;
+        (p as any).rotation += (p as any).rotationSpeed;
+        if ((p as any).y < -50 * dpr) {
+          (p as any).y = canvas.height + 40 * dpr;
+          (p as any).x = random(0, canvas.width);
         }
       });
       bannerText.alpha = 0.9 + Math.sin(createjs.Ticker.getTime() / 300) * 0.1;
       stage.update();
-    });
+    };
+    createjs.Ticker.addEventListener("tick", tick);
 
     return () => {
       window.removeEventListener("resize", setCanvasSize);
-      createjs.Ticker.removeAllEventListeners();
+      createjs.Ticker.removeEventListener("tick", tick);
     };
   }, []);
 
@@ -101,11 +97,7 @@ const ContactPage: React.FC = () => {
       <header className="bg-white shadow-md py-4 px-6">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
           <div className="flex items-center gap-4">
-            <img
-              src="logo1.png"
-              alt="Allen City Pharmacy Logo"
-              className="h-16"
-            />
+            <img src="logo1.png" alt="Allen City Pharmacy Logo" className="h-16" />
             <span className="font-bold text-lg text-green-800">
               Allen City Pharmacy
             </span>
@@ -126,10 +118,7 @@ const ContactPage: React.FC = () => {
 
       {/* Banner */}
       <div className="w-full bg-gradient-to-br from-green-400 to-orange-400 overflow-hidden">
-        <canvas
-          ref={bannerCanvasRef}
-          className="w-full h-60 block"
-        ></canvas>
+        <canvas ref={bannerCanvasRef} className="w-full h-60 block"></canvas>
       </div>
 
       {/* Main */}
