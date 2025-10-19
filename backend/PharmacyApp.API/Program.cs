@@ -1,3 +1,5 @@
+using PharmacyApp.Core.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services
@@ -5,15 +7,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<PharmacyDbContext>(options =>
+builder.Services.AddDbContext<PharmacyApp.Infrastructure.Data.PharmacyDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped(typeof(PharmacyApp.Core.Interfaces.IGenericRepository<>), typeof(PharmacyApp.Infrastructure.Repositories.GenericRepository<>));
+builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IProductService, ProductService>();
+builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IOrderService, OrderService>();
+builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IAuthService, AuthService>();
+builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IReportService, ReportService>();
 
 // ✅ MOVE THIS ABOVE app = builder.Build()
 builder.Services.AddCors(options =>
