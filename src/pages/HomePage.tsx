@@ -11,27 +11,131 @@ const HomePage: React.FC<HomePageProps> = () => {
   >([]);
 
   useEffect(() => {
-    setProducts([
-      {
-        id: "1",
-        name: "Vitamin C 500mg",
-        imageUrl: "src/assets/vi.png",
-        price: 19.99,
-      },
-      {
-        id: "2",
-        name: "Pain Reliever Tablets",
-        imageUrl: "src/assets/pain.jpg",
-        price: 12.49,
-      },
-      {
-        id: "3",
-        name: "First Aid Kit",
-        imageUrl: "src/assets/first.webp",
-        price: 24.99,
-      },
-    ]);
-  }, []);
+  setProducts([
+    {
+      id: "1",
+      name: "Vitamin C 500mg",
+      imageUrl: "src/assets/vi.png",
+      price: 19.99,
+    },
+    {
+      id: "2",
+      name: "Pain Reliever Tablets",
+      imageUrl: "src/assets/pain.jpg",
+      price: 12.49,
+    },
+    {
+      id: "3",
+      name: "First Aid Kit",
+      imageUrl: "src/assets/first.webp",
+      price: 24.99,
+    },
+    {
+      id: "4",
+      name: "Digital Thermometer",
+      imageUrl: "src/assets/thermometers-1296x728-header.avif",
+      price: 14.99,
+    },
+    {
+      id: "5",
+      name: "Hand Sanitizer 250ml",
+      imageUrl: "src/assets/hand.jpg",
+      price: 7.49,
+    },
+    {
+      id: "6",
+      name: "Blood Pressure Monitor",
+      imageUrl: "src/assets/blood presure.webp",
+      price: 59.99,
+    },
+    {
+      id: "7",
+      name: "Face Masks (Pack of 50)",
+      imageUrl: "src/assets/face.webp",
+      price: 9.99,
+    },
+    {
+      id: "8",
+      name: "Cough Syrup 100ml",
+      imageUrl: "src/pages/rup.webp",
+      price: 11.99,
+    },
+    {
+      id: "9",
+      name: "Allergy Relief Capsules",
+      imageUrl: "src/assets/allergy.webp",
+      price: 15.99,
+    },
+    {
+      id: "10",
+      name: "Antiseptic Cream",
+      imageUrl: "src/assets/bacidin.jpg",
+      price: 8.99,
+    },
+    {
+      id: "11",
+      name: "Multivitamins for Adults",
+      imageUrl: "src/assets/Centrum Silver Advance6001PPS0.jpg",
+      price: 21.99,
+    },
+    {
+      id: "12",
+      name: "Calcium + Vitamin D Tablets",
+      imageUrl: "src/assets/calcium.avif",
+      price: 18.49,
+    },
+    {
+      id: "13",
+      name: "Glucose Test Strips (50s)",
+      imageUrl: "src/assets/glu.jpg",
+      price: 34.99,
+    },
+    {
+      id: "14",
+      name: "Reusable Cold/Hot Gel Pack",
+      imageUrl: "src/assets/hot.jpg",
+      price: 10.99,
+    },
+    {
+      id: "15",
+      name: "Hydrocortisone Cream 1%",
+      imageUrl: "src/assets/hydro.webp",
+      price: 6.99,
+    },
+    {
+      id: "16",
+      name: "Eye Drops Lubricant 15ml",
+      imageUrl: "src/assets/eyedrops.jpg",
+      price: 9.49,
+    },
+    {
+      id: "17",
+      name: "Inhaler (Salbutamol)",
+      imageUrl: "src/assets/inhaler.jpg",
+      price: 13.99,
+    },
+    {
+      id: "18",
+      name: "Nasal Spray Decongestant",
+      imageUrl: "src/assets/nasalspray.jpg",
+      price: 11.49,
+    },
+    {
+      id: "19",
+      name: "Cotton Balls 100pcs",
+      imageUrl: "src/assets/cotton.jpg",
+      price: 4.99,
+    },
+    {
+      id: "20",
+      name: "Bandage Roll 5m",
+      imageUrl: "src/assets/bandage.jpg",
+      price: 5.49,
+    },
+  ]);
+}, []);
+
+
 
   return (
     <div className="relative min-h-screen flex flex-col text-gray-800 overflow-hidden">
@@ -109,50 +213,65 @@ const HomePage: React.FC<HomePageProps> = () => {
 
         {/* Services Section */}
         <section className="bg-white/80 backdrop-blur-sm py-16">
-          <div className="max-w-7xl mx-auto px-6 text-center">
-            <h2 className="text-3xl font-bold text-green-700 mb-10">
-              Our Pharmacy Services
-            </h2>
-            <div className="grid md:grid-cols-3 gap-10">
-              {[
-                {
-                  title: "Prescription Refills",
-                  desc: "Quick and easy prescription refills online or in-store.",
-                  icon: "💊",
-                },
-                {
-                  title: "Vaccinations",
-                  desc: "Flu shots, COVID-19, and more immunizations available.",
-                  icon: "💉",
-                },
-                {
-                  title: "Consultations",
-                  desc: "Get personalized health advice from licensed pharmacists.",
-                  icon: "🩺",
-                },
-              ].map((s) => (
-                <div
-                  key={s.title}
-                  className="bg-green-50/80 backdrop-blur p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-1"
-                >
-                  <div className="text-5xl mb-3">{s.icon}</div>
-                  <h3 className="text-xl font-semibold mb-2 text-green-700">
-                    {s.title}
-                  </h3>
-                  <p className="text-gray-700">{s.desc}</p>
-                </div>
-              ))}
-            </div>
+  <div className="max-w-7xl mx-auto px-6 text-center">
+    <h2 className="text-3xl font-bold text-green-700 mb-10">
+      Our Pharmacy Services
+    </h2>
+
+    <div className="grid md:grid-cols-3 gap-10">
+      {[
+        {
+          title: "Prescription Refills",
+          desc: "Quick and easy prescription refills online or in-store.",
+          image: "src/assets/prescription.jpg",
+        },
+        {
+          title: "Vaccinations",
+          desc: "Flu shots, COVID-19, and more immunizations available.",
+          image: "src/assets/flu.jpg",
+        },
+        {
+          title: "Consultations",
+          desc: "Get personalized health advice from licensed pharmacists.",
+          image: "src/assets/consultation.webp",
+        },
+      ].map((s) => (
+        <div
+          key={s.title}
+          className="bg-green-50/80 backdrop-blur p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-transform hover:-translate-y-1"
+        >
+          <div className="flex justify-center mb-4">
+            <img
+              src={s.image}
+              alt={s.title}
+              className="w-20 h-20 object-cover rounded-full shadow-md"
+            />
           </div>
-        </section>
+          <h3 className="text-xl font-semibold mb-2 text-green-700">
+            {s.title}
+          </h3>
+          <p className="text-gray-700">{s.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
 
         {/* Featured Products */}
         {/* Enhanced Featured Products Section */}
 <section className="bg-gray-50/90 backdrop-blur-md py-20 relative">
   <div className="max-w-7xl mx-auto px-6 text-center">
-    <h2 className="text-4xl font-extrabold text-green-700 mb-12 tracking-tight">
+    <h2 className="text-4xl font-extrabold text-green-700 mb-4 tracking-tight">
       Featured Products
     </h2>
+
+    {/* Friendly Description */}
+    <p className="text-gray-600 max-w-2xl mx-auto mb-12 text-lg">
+      Explore our best-selling medicines and wellness essentials — carefully
+      chosen by our pharmacists to help you stay healthy and feel your best
+      every day.
+    </p>
 
     {/* Filter + Sort Controls */}
     <div className="flex flex-wrap justify-center gap-4 mb-10">
@@ -207,15 +326,16 @@ const HomePage: React.FC<HomePageProps> = () => {
       ))}
     </div>
 
-    {/* CTA */}
+    {/* CTA / Carousel (Optional) */}
     <div className="flex sm:grid overflow-x-auto gap-6 pb-4 snap-x snap-mandatory sm:overflow-visible">
-  {products.map((p) => (
-    <div className="snap-center min-w-[260px] sm:min-w-0">{/* ...product card... */}</div>
-  ))}
-</div>
-
+      {products.map((p) => (
+        <div className="snap-center min-w-[260px] sm:min-w-0">{/* ...product card... */}</div>
+      ))}
+    </div>
   </div>
 </section>
+
+
 
 
         {/* About Section */}
