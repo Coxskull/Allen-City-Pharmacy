@@ -1,5 +1,8 @@
-using Microsoft.EntityFrameworkCore;
+using PharmacyApp.Core.Interfaces;
 using PharmacyApp.Core.Services;
+using PharmacyApp.Infrastructure.Data;
+using PharmacyApp.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,23 +11,32 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<PharmacyApp.Infrastructure.Data.PharmacyDbContext>(options =>
+builder.Services.AddDbContext<PharmacyDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddScoped(typeof(PharmacyApp.Core.Interfaces.IGenericRepository<>), typeof(PharmacyApp.Infrastructure.Repositories.GenericRepository<>));
-builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IProductService, ProductService>();
-builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IOrderService, OrderService>();
-builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IAuthService, AuthService>();
-builder.Services.AddScoped<PharmacyApp.Core.Interfaces.IReportService, ReportService>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IReportService, ReportService>();
 
-// ✅ MOVE THIS ABOVE app = builder.Build()
+// ✅ Add CORS BEFORE app.Build()
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
         policy
-            .WithOrigins("https://urban-space-goggles-g4v7qv6g79x7fw49p-5173.app.github.dev")
+            .WithOrigins(
+                "http://localhost:5173",
+                "http://127.0.0.1:5173"
+            )
+            // Allow any GitHub Codespaces frontend dynamically
+            .SetIsOriginAllowed(origin =>
+                origin.Contains(".app.github.dev") || // any Codespace
+                origin.StartsWith("http://localhost") ||
+                origin.StartsWith("http://127.0.0.1")
+            )
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -32,16 +44,16 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+// ✅ Enable CORS before controller mapping
+app.UseCors("AllowFrontend");
+
+// Swagger setup
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-// ✅ Enable CORS before controllers
-app.UseCors("AllowFrontend");
-
 app.UseAuthorization();
 app.MapControllers();
-
 app.Run();

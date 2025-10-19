@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-const API_URL =
-  import.meta.env.VITE_API_URL ||
-  "https://urban-space-goggles-g4v7qv6g79x7fw49p-5272.app.github.dev";
+// ✅ Auto-detect backend URL (works for both GitHub Codespaces and local dev)
+const API_URL = (() => {
+  const host = window.location.hostname;
+
+  if (host.includes(".app.github.dev")) {
+    // Automatically switch frontend port (5173) → backend port (5272)
+    return `https://${host.replace("5173", "5272")}`;
+  }
+
+  // Local dev fallback
+  return "http://localhost:5272";
+})();
 
 const BackendStatus: React.FC = () => {
   const [status, setStatus] = useState<"checking" | "connected" | "failed">("checking");
@@ -24,7 +33,7 @@ const BackendStatus: React.FC = () => {
     };
 
     checkBackend();
-  }, []); // ✅ correct syntax here
+  }, []);
 
   return (
     <div
