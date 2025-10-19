@@ -83,6 +83,7 @@ const products: Product[] = [
       "Compact first aid kit with essential supplies for home, office, and travel emergencies.",
     stock: "In stock",
   },
+  
   {
     id: 6,
     name: "Baby Formula - 400g",

@@ -107,7 +107,7 @@ const ServicesPage: React.FC = () => {
     transition={{ duration: 0.8 }}
   >
     <img
-      src="src/assets/BGBG.jpg"
+      src="src/assets/services.png"
       alt="Pharmacy services illustration"
       className="rounded-2xl shadow-2xl w-full"
     />

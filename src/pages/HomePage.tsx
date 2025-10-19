@@ -15,19 +15,19 @@ const HomePage: React.FC<HomePageProps> = () => {
       {
         id: "1",
         name: "Vitamin C 500mg",
-        imageUrl: "src/assets/vitamins c.jpg",
+        imageUrl: "src/assets/vi.png",
         price: 19.99,
       },
       {
         id: "2",
         name: "Pain Reliever Tablets",
-        imageUrl: "src/assets/900.avif",
+        imageUrl: "src/assets/pain.jpg",
         price: 12.49,
       },
       {
         id: "3",
         name: "First Aid Kit",
-        imageUrl: "src/assets/first.jpg",
+        imageUrl: "src/assets/first.webp",
         price: 24.99,
       },
     ]);
@@ -94,7 +94,7 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   <div className="relative z-10 flex-1">
     <img
-      src="src/assets/ok.webp"
+      src="src/assets/pharmacy.jpg"
       alt="Pharmacy"
       className="rounded-3xl shadow-2xl w-full border-4 border-white/40"
     />
