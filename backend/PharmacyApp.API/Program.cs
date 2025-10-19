@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using PharmacyApp.Core.Services;
 
 var builder = WebApplication.CreateBuilder(args);
