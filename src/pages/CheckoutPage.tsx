@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from "react";
+import Visa from "../assets/Visa.png";
+import Mastercard from "../assets/Mastercard.png";
+import Amex from "../assets/amex.png";
+import Googleplay from "../assets/Googleplay.png";
+import Paypal from "../assets/Paypal.png";
 
 interface CartItem {
   name: string;
@@ -13,14 +18,8 @@ interface CheckoutData {
   shipping: number;
   total: number;
 }
-interface CheckoutPageProps {
-  cart: CartItem[];
-  setQty: (id: number, qty: number) => void;
-  removeFromCart: (id: number) => void;
-  clearCart: () => void;
-}
 
-const CheckOutPage: React.FC<CheckoutPageProps> = () => {
+const CheckOutPage: React.FC = () => {
   const [checkoutData, setCheckoutData] = useState<CheckoutData | null>(null);
   const [formData, setFormData] = useState({
     firstName: "",
@@ -65,7 +64,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
       return;
     }
 
-    alert("✅ Order placed successfully! Thank you for your purchase.");
+    alert("✅ Order placed successfully! Thank you for trusting Allen City Pharmacy.");
     localStorage.removeItem("checkoutData");
     window.location.href = "/";
   };
@@ -96,6 +95,10 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
         <h1 className="text-3xl font-bold text-black mb-6 text-center">
           Secure Checkout
         </h1>
+        <p className="text-center text-gray-600 mb-10 max-w-2xl mx-auto">
+          Your health and safety are our priority. Please review your order carefully,
+          enter accurate information, and complete your secure payment below.
+        </p>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Left Side - Form */}
@@ -105,11 +108,16 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                 Billing Information
               </h2>
 
+              <p className="text-sm text-gray-500 mb-3">
+                Please provide your complete billing and delivery information.
+                Fields marked with * are required.
+              </p>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <input
                   id="firstName"
                   type="text"
-                  placeholder="First Name"
+                  placeholder="First Name *"
                   className="p-3 border rounded-md"
                   required
                   value={formData.firstName}
@@ -118,7 +126,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                 <input
                   id="lastName"
                   type="text"
-                  placeholder="Last Name"
+                  placeholder="Last Name *"
                   className="p-3 border rounded-md"
                   required
                   value={formData.lastName}
@@ -129,7 +137,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
               <input
                 id="email"
                 type="email"
-                placeholder="Email"
+                placeholder="Email *"
                 className="p-3 border rounded-md w-full"
                 required
                 value={formData.email}
@@ -139,7 +147,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
               <input
                 id="address"
                 type="text"
-                placeholder="Street Address"
+                placeholder="Street Address *"
                 className="p-3 border rounded-md w-full"
                 required
                 value={formData.address}
@@ -150,7 +158,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                 <input
                   id="city"
                   type="text"
-                  placeholder="City"
+                  placeholder="City *"
                   className="p-3 border rounded-md"
                   required
                   value={formData.city}
@@ -159,7 +167,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                 <input
                   id="state"
                   type="text"
-                  placeholder="State/Region"
+                  placeholder="State/Region *"
                   className="p-3 border rounded-md"
                   required
                   value={formData.state}
@@ -168,7 +176,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                 <input
                   id="zip"
                   type="text"
-                  placeholder="ZIP / Postal"
+                  placeholder="ZIP / Postal *"
                   className="p-3 border rounded-md"
                   required
                   value={formData.zip}
@@ -179,7 +187,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
               <input
                 id="phone"
                 type="tel"
-                placeholder="Phone (for delivery updates)"
+                placeholder="Phone (for delivery updates) *"
                 className="p-3 border rounded-md w-full"
                 required
                 value={formData.phone}
@@ -197,12 +205,13 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                   value={formData.deliveryMethod}
                   onChange={handleChange}
                 >
-                  <option value="standard">
-                    Standard (2–4 days) - ₱120
-                  </option>
+                  <option value="standard">Standard (2–4 days) - ₱120</option>
                   <option value="express">Express (1–2 days) - ₱250</option>
                   <option value="pickup">In-store Pickup (Free)</option>
                 </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Free same-day pickup available at select Allen City Pharmacy branches.
+                </p>
               </div>
 
               <div>
@@ -213,7 +222,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                   id="orderNotes"
                   rows={3}
                   className="p-3 border rounded-md w-full"
-                  placeholder="Leave delivery instructions..."
+                  placeholder="Leave delivery instructions or special requests..."
                   value={formData.orderNotes}
                   onChange={handleChange}
                 />
@@ -223,6 +232,10 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
               <h2 className="text-xl font-semibold text-green-800 border-b pb-2">
                 Payment Details
               </h2>
+
+              <p className="text-sm text-gray-500 mb-3">
+                All transactions are encrypted and secured with SSL technology.
+              </p>
 
               <input
                 id="cardName"
@@ -235,7 +248,7 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
               <input
                 id="cardNumber"
                 type="text"
-                placeholder="Card number (4242 4242 4242 4242)"
+                placeholder="Card number (e.g. 4242 4242 4242 4242)"
                 className="mt-3 p-3 border rounded-md w-full"
                 value={formData.cardNumber}
                 onChange={handleChange}
@@ -268,43 +281,46 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                 <p className="text-sm text-gray-600 mb-1">
                   Accepted Payment Methods:
                 </p>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-center flex-wrap">
                   <a href="https://www.visa.com" target="_blank">
                     <img
-                      src="Visa.png"
+                      src={Visa}
                       alt="Visa"
                       className="h-5 hover:scale-110 transition-transform"
                     />
                   </a>
                   <a href="https://www.mastercard.com" target="_blank">
                     <img
-                      src="mastercard.png"
+                      src={Mastercard}
                       alt="Mastercard"
                       className="h-5 hover:scale-110 transition-transform"
                     />
                   </a>
                   <a href="https://www.americanexpress.com" target="_blank">
                     <img
-                      src="amex.png"
-                      alt="AmEx"
+                      src={Amex}
+                      alt="Amex"
                       className="h-5 hover:scale-110 transition-transform"
                     />
                   </a>
                   <a href="https://pay.google.com" target="_blank">
                     <img
-                      src="Googleplayicon.png"
+                      src={Googleplay}
                       alt="Google Pay"
                       className="h-5 hover:scale-110 transition-transform"
                     />
                   </a>
                   <a href="https://www.paypal.com" target="_blank">
                     <img
-                      src="Paypal.png"
+                      src={Paypal}
                       alt="PayPal"
                       className="h-5 hover:scale-110 transition-transform"
                     />
                   </a>
                 </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Your card will not be charged until your order has been confirmed.
+                </p>
               </div>
 
               {/* Terms */}
@@ -319,8 +335,8 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                   I agree to the{" "}
                   <a href="#" className="text-green-700 underline">
                     Terms & Privacy Policy
-                  </a>
-                  .
+                  </a>{" "}
+                  and confirm my order details are correct.
                 </label>
               </div>
 
@@ -329,8 +345,13 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
                 onClick={handlePlaceOrder}
                 className="bg-green-700 text-white px-6 py-3 rounded-md w-full mt-6 hover:bg-green-800 transition"
               >
-                Place Order
+                Place Order Securely
               </button>
+
+              <p className="text-xs text-gray-500 mt-3 text-center">
+                By placing this order, you consent to Allen City Pharmacy’s secure
+                payment processing and agree to our refund policy.
+              </p>
             </form>
           </section>
 
@@ -388,9 +409,10 @@ const CheckOutPage: React.FC<CheckoutPageProps> = () => {
               </div>
             </div>
 
-            <div className="mt-4 text-xs text-gray-500 border-t pt-3">
-              💳 Payments are processed securely.
-              Accepted: Visa, Mastercard, AmEx, PayPal, GPay.
+            <div className="mt-4 text-xs text-gray-500 border-t pt-3 leading-relaxed">
+              Payments are processed through secure, PCI-certified gateways ensuring complete data protection. Accepted: Visa, Mastercard, AmEx, PayPal, and Google Pay. 
+              <br />
+              Allen City Pharmacy is a government-licensed healthcare provider committed to quality, authenticity, and your wellbeing.
             </div>
           </aside>
         </div>

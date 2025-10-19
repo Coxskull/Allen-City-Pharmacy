@@ -67,65 +67,82 @@ const ServicesPage: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-tr from-emerald-400 via-green-400 to-lime-300 text-gray-800 font-[Segoe_UI]">
       {/* Hero Banner */}
-      <section className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-20 px-6 gap-10">
-        <motion.div
-          className="flex-1 space-y-5"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">
-            Caring for You, Every Step of the Way
-          </h1>
-          <p className="text-white/90 text-lg leading-relaxed">
-            At <strong>Allen City Pharmacy</strong>, we combine modern healthcare with personal care.
-            From prescriptions to wellness services, our goal is to help you live a healthier, happier life.
-          </p>
-          <Link
-            to="/contact"
-            className="inline-block bg-white text-green-800 px-8 py-3 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
-          >
-            Talk to a Pharmacist
-          </Link>
-        </motion.div>
+      <section
+  className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-20 px-6 gap-10 overflow-hidden rounded-2xl"
+>
+  {/* Pharmacist Background Image */}
+  <div
+    className="absolute inset-0 bg-[url('https://www.brunet.ca/globalassets/sante/conseils-sante/role-du-pharmacien/role-du-pharmacien-big.jpg')] bg-cover bg-center opacity-20"
+    aria-hidden="true"
+  ></div>
 
-        <motion.div
-          className="flex-1"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          <img
-            src="/AllenCity Pharmacy Logo.png"
-            alt="Pharmacy services illustration"
-            className="rounded-2xl shadow-2xl w-full"
-          />
-        </motion.div>
-      </section>
+  {/* Overlay for better contrast */}
+  <div className="absolute inset-0 bg-emerald-900/30 mix-blend-multiply"></div>
+
+  {/* Content */}
+  <motion.div
+    className="relative flex-1 space-y-5"
+    initial={{ opacity: 0, y: 30 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+  >
+    <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">
+      Compassion at every step. Care that truly puts you first.
+    </h1>
+    <p className="text-white/90 text-lg leading-relaxed">
+      At Allen City Pharmacy, we believe great healthcare goes beyond medicine. With expert care and personal attention, we're here to help you live well every day.
+    </p>
+    <Link
+      to="/contact"
+      className="inline-block bg-white text-green-800 px-8 py-3 rounded-full font-semibold hover:bg-yellow-300 transition shadow-md"
+    >
+      Talk to a Pharmacist
+    </Link>
+  </motion.div>
+
+  <motion.div
+    className="relative flex-1"
+    initial={{ opacity: 0, scale: 0.9 }}
+    animate={{ opacity: 1, scale: 1 }}
+    transition={{ duration: 0.8 }}
+  >
+    <img
+      src="src/assets/BGBG.jpg"
+      alt="Pharmacy services illustration"
+      className="rounded-2xl shadow-2xl w-full"
+    />
+  </motion.div>
+</section>
 
       {/* Services Section */}
-      <section className="bg-white py-20">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-4xl font-bold text-green-700 mb-12">
-            Comprehensive Pharmacy Services
-          </h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-            {services.map((s) => (
-              <motion.div
-                key={s.title}
-                className="bg-green-50 p-8 rounded-3xl shadow hover:shadow-xl transition text-left"
-                whileHover={{ scale: 1.03 }}
-              >
-                <div className="text-5xl mb-3">{s.icon}</div>
-                <h3 className="text-2xl font-semibold mb-2 text-green-700">
-                  {s.title}
-                </h3>
-                <p className="text-gray-600 leading-relaxed">{s.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <section className="relative py-20 overflow-hidden">
+  {/* 🌈 Animated Gradient Background */}
+  <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-green-300 to-lime-300 bg-[length:400%_400%] animate-gradient" />
+
+  {/* Optional translucent overlay for better text contrast */}
+  <div className="absolute inset-0 bg-white/40 backdrop-blur-[2px]" />
+
+  <div className="relative max-w-7xl mx-auto px-6 text-center">
+    <h2 className="text-4xl font-bold text-green-700 mb-12">
+      Comprehensive Pharmacy Services
+    </h2>
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      {services.map((s) => (
+        <motion.div
+          key={s.title}
+          className="bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow hover:shadow-xl transition text-left"
+          whileHover={{ scale: 1.03 }}
+        >
+          <div className="text-5xl mb-3">{s.icon}</div>
+          <h3 className="text-2xl font-semibold mb-2 text-green-700">
+            {s.title}
+          </h3>
+          <p className="text-gray-600 leading-relaxed">{s.desc}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Trust Badges */}
       <section className="bg-green-100 py-12">
@@ -173,8 +190,7 @@ const ServicesPage: React.FC = () => {
           Your Trusted Pharmacy in Allen City
         </h2>
         <p className="text-white/90 mb-6 max-w-3xl mx-auto text-lg">
-          Whether you need your prescription refilled or a quick vaccination,
-          we’re here to make healthcare simpler and more accessible for you.
+          From prescription refills to vaccinations, we strive to deliver seamless, patient-centered care that makes managing your health simple and stress-free.
         </p>
         <Link
           to="/shop"

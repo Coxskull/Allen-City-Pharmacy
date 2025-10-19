@@ -15,19 +15,19 @@ const HomePage: React.FC<HomePageProps> = () => {
       {
         id: "1",
         name: "Vitamin C 500mg",
-        imageUrl: "/images/vitamin-c.jpg",
+        imageUrl: "src/assets/vitamins c.jpg",
         price: 19.99,
       },
       {
         id: "2",
         name: "Pain Reliever Tablets",
-        imageUrl: "/images/pain-reliever.jpg",
+        imageUrl: "src/assets/900.avif",
         price: 12.49,
       },
       {
         id: "3",
         name: "First Aid Kit",
-        imageUrl: "/images/first-aid.jpg",
+        imageUrl: "src/assets/first.jpg",
         price: 24.99,
       },
     ]);
@@ -59,31 +59,53 @@ const HomePage: React.FC<HomePageProps> = () => {
       {/* Foreground Content */}
       <div className="relative z-10">
         {/* Hero Section */}
-        <section className="flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-20 px-6 gap-8">
-          <div className="flex-1 space-y-5">
-            <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">
-              Welcome to Allen City Pharmacy
-            </h1>
-            <p className="text-white/90 text-lg md:text-xl max-w-lg">
-              Your trusted neighborhood pharmacy — where wellness meets care.
-              Explore our health essentials and get professional service from our
-              experts.
-            </p>
-            <Link
-              to="/shop"
-              className="inline-block bg-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-800 hover:scale-105 transform transition"
-            >
-              Shop Now
-            </Link>
-          </div>
-          <div className="flex-1">
-            <img
-              src="/images/pharmacy-hero.jpg"
-              alt="Pharmacy"
-              className="rounded-3xl shadow-2xl w-full border-4 border-white/40"
-            />
-          </div>
-        </section>
+      <section
+  className="relative flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto py-20 px-6 gap-8 overflow-hidden"
+>
+  {/* Slow zooming background */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
+  >
+    <div
+      className="w-full h-full animate-slow-zoom"
+      style={{
+        backgroundImage: "url('src/assets/bk.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    ></div>
+  </div>
+
+  {/* Foreground content */}
+  <div className="relative z-10 flex-1 space-y-5 bg-black/40 p-6 rounded-3xl backdrop-blur-sm shadow-2xl">
+    <h1 className="text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg">
+      Welcome to Allen City Pharmacy
+    </h1>
+    <p className="text-white/90 text-lg md:text-xl max-w-lg">
+      A trusted pharmacy ensures quality medicines and compassionate care for every customer.
+    </p>
+    <Link
+      to="/shop"
+      className="inline-block bg-green-700 text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-green-800 hover:scale-105 transform transition"
+    >
+      Shop Now
+    </Link>
+  </div>
+
+  <div className="relative z-10 flex-1">
+    <img
+      src="src/assets/ok.webp"
+      alt="Pharmacy"
+      className="rounded-3xl shadow-2xl w-full border-4 border-white/40"
+    />
+  </div>
+</section>
+
+
+
+
+
+
 
         {/* Services Section */}
         <section className="bg-white/80 backdrop-blur-sm py-16">
@@ -125,34 +147,76 @@ const HomePage: React.FC<HomePageProps> = () => {
         </section>
 
         {/* Featured Products */}
-        <section className="bg-gray-50/90 backdrop-blur-md py-16">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center text-green-700 mb-10">
-              Featured Products
-            </h2>
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {products.map((p) => (
-                <Link
-                  to={`/product/${p.id}`}
-                  key={p.id}
-                  className="bg-white rounded-3xl shadow hover:shadow-2xl transition transform hover:-translate-y-1 text-center p-5"
-                >
-                  <img
-                    src={p.imageUrl}
-                    alt={p.name}
-                    className="w-full h-56 object-cover rounded-2xl mb-4"
-                  />
-                  <h4 className="font-semibold text-lg text-gray-800">
-                    {p.name}
-                  </h4>
-                  <p className="text-green-700 font-bold">
-                    ${p.price.toFixed(2)}
-                  </p>
-                </Link>
-              ))}
-            </div>
+        {/* Enhanced Featured Products Section */}
+<section className="bg-gray-50/90 backdrop-blur-md py-20 relative">
+  <div className="max-w-7xl mx-auto px-6 text-center">
+    <h2 className="text-4xl font-extrabold text-green-700 mb-12 tracking-tight">
+      Featured Products
+    </h2>
+
+    {/* Filter + Sort Controls */}
+    <div className="flex flex-wrap justify-center gap-4 mb-10">
+      <button className="px-4 py-2 rounded-full bg-green-700 text-white text-sm font-semibold hover:bg-green-800 transition">
+        All
+      </button>
+      <button className="px-4 py-2 rounded-full bg-white shadow text-green-700 border border-green-600 text-sm hover:bg-green-50 transition">
+        Under $20
+      </button>
+      <button className="px-4 py-2 rounded-full bg-white shadow text-green-700 border border-green-600 text-sm hover:bg-green-50 transition">
+        Supplements
+      </button>
+      <button className="px-4 py-2 rounded-full bg-white shadow text-green-700 border border-green-600 text-sm hover:bg-green-50 transition">
+        Wellness Kits
+      </button>
+    </div>
+
+    {/* Product Grid */}
+    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-10">
+      {products.map((p) => (
+        <div
+          key={p.id}
+          className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 hover:scale-[1.02] transition-all duration-300 overflow-hidden relative"
+        >
+          {/* Product Image */}
+          <div className="relative w-full h-56 overflow-hidden">
+            <img
+              src={p.imageUrl}
+              alt={p.name}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <button
+              onClick={() => alert(`Added ${p.name} to cart!`)}
+              className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-green-700 text-white px-5 py-2 rounded-full font-medium text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-green-800"
+            >
+              Add to Cart
+            </button>
           </div>
-        </section>
+
+          {/* Product Details */}
+          <div className="p-5 text-center space-y-2">
+            <h4 className="font-semibold text-lg text-gray-800">{p.name}</h4>
+            <p className="text-green-700 font-bold text-xl">${p.price.toFixed(2)}</p>
+            <div className="flex justify-center gap-1 text-yellow-400 text-lg">
+              ★★★★☆
+            </div>
+            <p className="text-gray-500 text-sm">
+              Boost your daily health and wellness.
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* CTA */}
+    <div className="flex sm:grid overflow-x-auto gap-6 pb-4 snap-x snap-mandatory sm:overflow-visible">
+  {products.map((p) => (
+    <div className="snap-center min-w-[260px] sm:min-w-0">{/* ...product card... */}</div>
+  ))}
+</div>
+
+  </div>
+</section>
+
 
         {/* About Section */}
         <section className="bg-white/90 backdrop-blur-sm py-16">
@@ -176,45 +240,9 @@ const HomePage: React.FC<HomePageProps> = () => {
       </div>
 
       {/* Keyframes for animation */}
-      <style>{`
-        /* Smooth animated gradient */
-        @keyframes gradientMove {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        .animate-gradient {
-          animation: gradientMove 15s ease infinite;
-        }
-
-        /* Floating icon animations */
-        @keyframes floatSlow {
-          0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
-          50% { transform: translateY(-20px) scale(1.05); opacity: 0.3; }
-        }
-        @keyframes floatMedium {
-          0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
-          50% { transform: translateY(-30px) scale(1.08); opacity: 0.3; }
-        }
-        @keyframes floatFast {
-          0%, 100% { transform: translateY(0) scale(1); opacity: 0.2; }
-          50% { transform: translateY(-40px) scale(1.1); opacity: 0.35; }
-        }
-
-        .animate-float-slow {
-          animation: floatSlow 12s ease-in-out infinite;
-        }
-        .animate-float-medium {
-          animation: floatMedium 8s ease-in-out infinite;
-        }
-        .animate-float-fast {
-          animation: floatFast 6s ease-in-out infinite;
-        }
-      `}</style>
+      
     </div>
   );
 };
 
 export default HomePage;
-
-
