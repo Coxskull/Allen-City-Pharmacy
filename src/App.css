@@ -41,7 +41,7 @@
   color: #888;
 }
 
-const [isCartOpen, setIsCartOpen] = useState(false);
+
 
 @keyframes slideIn {
   from {
